@@ -260,10 +260,10 @@ There aren't any null values for either train or test sets.
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.
-**Month**
-<img src="/images/Month_distribution.PNG" title="Distribution of BIXI rides by month" width="400" height="auto"/><br>
-**Day**
-<img src="/images/Day_distribution.PNG" title="Distribution of BIXI rides by day" width="400" height="auto"/><br>
+**Month**<br>
+<img src="/images/Month_distribution.png" title="Distribution of BIXI rides by month" width="500" height="auto"/><br>
+**Day**<br>
+<img src="/images/Day_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
 
 ## 6) Model Building
 
