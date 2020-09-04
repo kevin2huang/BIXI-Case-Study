@@ -169,7 +169,7 @@ dtypes: float64(3), int64(8)
 **Summarize the central tendency, dispersion and shape**
 ```python
 # get information on the numerical columns for the data set
-with pd.option_context('display.max_columns', 10):
+with pd.option_context('display.max_columns', 11):
     print(train_copy.describe(include='all'))
 ```
 ```
@@ -212,10 +212,55 @@ The data is cleaned in 4 steps:
 4. Converting/Formatting datatypes
 
 ### 4.1 Correcting outliers
+Based on the summary above, there aren't any obvious outliers so I skipped this for now. Some outliers may be identified during the data exploration.
 
 ### 4.2 Completing null or missing data
+The columns containing null values need to be identified for both the training and test data sets.<br>
+**Training data**
+```python
+# find number of null values in each column
+print('Number of null values per column for train data:\n', train_copy.isnull().sum())
+```
+```
+Number of null values per column for train data:
+Year                  0
+Month                 0
+Day                   0
+Hour                  0
+start_station_code    0
+end_station_code      0
+duration_sec          0
+is_member             0
+latitude              0
+longitude             0
+Temp (°C)             0
+dtype: int64
+```
+**Testing data**
+```python
+# find number of null values in each column
+print('Number of null values per column for test data:\n', test_data.isnull().sum())
+```
+```
+Number of null values per column for test data:
+Year                  0
+Month                 0
+Day                   0
+Hour                  0
+start_station_code    0
+end_station_code      0
+duration_sec          0
+is_member             0
+latitude              0
+longitude             0
+Temp (°C)             0
+dtype: int64
+```
+There aren't any null values for either train or test sets.
 
 ## 5) Data Exploration
+Let's look at the distribution for each column based on the number of rides.
+
 
 ## 6) Model Building
 
