@@ -74,7 +74,7 @@ from sklearn import model_selection
 from sklearn import metrics
 ```
 
-### 3.3 Get to know the data
+### 3.3 Data dictionary
 The data dictionary for the data sets are as follows:<br>
 **BIXI rides** (title in format OD_yyyy-mm)<br>
 | Variable | Definition | Key |
@@ -94,20 +94,29 @@ The data dictionary for the data sets are as follows:<br>
 | latitude | The latitude of the station |  |
 | longitude | The longitude of the station |  |
 
-**Montreal Temperature** (The climate records come from the Government of Canada website. To simplify the analysis, I will only be using the weather data from the McTavish reservoir station as a proxy for all the weather patterns of the different areas of the island of Montreal.)<br>
+**Montreal 2018 Temperature** (The climate records come from the Government of Canada website. To simplify the analysis, I will only be using the weather data from the McTavish reservoir station as a proxy for all the weather patterns of the different areas of the island of Montreal.)<br>
 | Variable | Definition | Key |
 | :-------: | :---------:| :-------:|
 | Date/Time | The date and time |  |
-| Year | The year extracted from Date/Time column |  |
-| Month | The month extracted from Date/Time column |  |
-| Day | The day extracted from Date/Time column |  |
-| Time | The time extracted from Date/Time column |  |
+| Year | The year extracted from the Date/Time column |  |
+| Month | The month extracted from the Date/Time column |  |
+| Day | The day extracted from the Date/Time column |  |
+| Time | The time extracted from the Date/Time column |  |
 | Temp (°C) | The temperature in celcius |  |
 | Dew Point Temp (°C) | The dew point in celcius |  |
 | Rel Hum (%) | The percent of relative humidity |  |
 | Wind Dir (10s deg) | The wind direction by 10s of degrees |  |
 | Wind Spd (km/h) | The speed of the wind in km/h |  |
 | Stn Press (kPa) | The standard pressure in kPa |  |
+
+### 3.4 Data set restructuring
+The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed. To do this, I'll use Alteryx.<br>
+
+I started by merging the months of the 2018 data set and outputting the data into a new file called OD_2018_all_months.<br>
+![2018 BIXI Union](UNION_2018_BIXI_workflow.png)
+
+### 3.5 Greet the data
+
 
 ## 4) Data Cleaning
 The data is cleaned in 4 steps:
