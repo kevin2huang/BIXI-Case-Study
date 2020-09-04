@@ -113,8 +113,7 @@ The data dictionary for the data sets are as follows:<br>
 The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed. To do this, I'll use Alteryx.<br>
 
 I started by merging the months of the 2018 data set and outputting the data into a new file called OD_2018_all_months.<br>
-![](/images/UNION_2018_BIXI_workflow.PNG)
-<!-- <img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="150" height="100"/> -->
+<img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="200" height="auto"/>
 
 ### 3.5 Greet the data
 
