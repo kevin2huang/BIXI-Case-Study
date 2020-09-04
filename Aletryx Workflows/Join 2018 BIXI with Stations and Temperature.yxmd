@@ -167,6 +167,11 @@
             <SelectField field="Month" selected="True" type="Int16" size="2" />
             <SelectField field="Day" selected="True" type="Int16" size="2" />
             <SelectField field="Time" selected="False" />
+            <SelectField field="Dew Point Temp (°C)" selected="False" />
+            <SelectField field="Rel Hum (%)" selected="False" />
+            <SelectField field="Wind Dir (10s deg)" selected="False" />
+            <SelectField field="Wind Spd (km/h)" selected="False" />
+            <SelectField field="Stn Press (kPa)" selected="False" />
             <SelectField field="Time_Out" selected="False" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
