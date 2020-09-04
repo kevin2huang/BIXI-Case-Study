@@ -119,7 +119,7 @@ Then add the lattitude and longitude for each station (I left out the station na
 Next I joined the temperature to the BIXI and Stations combined data set into a new file called 2018_BIXI_Stations_Temperature.CSV. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season. I left out the wind speed, humidity, etc.<br>
 <img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
 Finally, the data set was split into a training(80%) and testing(20%) set.
-<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="600" height="auto"/><br>
+<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="400" height="auto"/><br>
 
 ### 3.5 Greet the data
 **Import data**
@@ -174,34 +174,34 @@ with pd.option_context('display.max_columns', 10):
 ```
 ```
             Year         Month           Day          Hour  \
-count  	 4178921  	   4178921  	 4178921  	   4178921   
-mean        2018  	  7.267364  	15.72647  	  14.20463   
-std            0  	  1.778885  	8.767025  	  5.300635   
-min         2018  	  		 4   		   1  			 0   
-25%         2018  			 6   		   8  			10   
-50%         2018  			 7  		  16  			15   
-75%         2018  			 9  		  23  			18   
-max         2018  			11  		  31  			23   
+count    4178921       4178921       4178921       4178921   
+mean        2018      7.267364      15.72647      14.20463   
+std            0      1.778885      8.767025      5.300635   
+min         2018             4             1             0   
+25%         2018             6             8            10   
+50%         2018             7            16            15   
+75%         2018             9            23            18   
+max         2018            11            31            23   
 
        start_station_code  end_station_code  duration_sec     is_member  \
-count        	  4178921      		4178921  	  4178921  		4178921   
-mean         	 6331.976      	   6327.396  	 800.6714  	  0.8308130   
-std          	 415.2819      	   429.9209  	 605.8301  	  0.3749170   
-min          		 4000      		   4000  		   61  			  0   
-25%          		 6114      		   6100  		  369  			  1   
-50%          		 6211      		   6205  		  643  			  1   
-75%          		 6397      		   6405  		 1075  			  1   
-max          		10002      		  10002  		 7199  			  1   
+count             4178921           4178921       4178921       4178921   
+mean             6331.976          6327.396      800.6714     0.8308130   
+std              415.2819          429.9209      605.8301     0.3749170   
+min                  4000              4000            61             0   
+25%                  6114              6100           369             1   
+50%                  6211              6205           643             1   
+75%                  6397              6405          1075             1   
+max                 10002             10002          7199             1   
 
            latitude     longitude     Temp (°C)
-count  		4178921  	  4178921  		4178921
-mean   	   45.51737 	-73.57979  	   19.58934
-std    	 0.02118086   0.02.083352  	   7.398439
-min    	   45.42947 	-73.66739 	  	  -10.7
-25%    	   45.50373 	-73.58976  	   	   15.1
-50%    	   45.51941 	-73.57635      	   21.2
-75%    	   45.53167 	-73.56545  		     25
-max    	   45.58276 	-73.49507  		   35.8
+count       4178921       4178921       4178921
+mean       45.51737     -73.57979      19.58934
+std      0.02118086    0.02083352      7.398439
+min        45.42947     -73.66739         -10.7
+25%        45.50373     -73.58976          15.1
+50%        45.51941     -73.57635          21.2
+75%        45.53167     -73.56545            25
+max        45.58276     -73.49507          35.8
 ```
 
 ## 4) Data Cleaning
