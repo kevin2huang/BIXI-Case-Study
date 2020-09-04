@@ -115,7 +115,7 @@ The rides data set is separated by months and the geocoordinates of each station
 I started by merging the months of the 2018 data set and outputting the data into a new file called OD_2018_all_months.CSV.<br>
 <img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="400" height="auto"/><br>
 Then add the lattitude and longitude for each station (I left out the station name).<br>
-<img src="/images/2018_BIXI_and_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
+<img src="/images/JOIN_2018_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
 Next I joined the temperature to the BIXI and Stations combined data set. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season.<br>
 <img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
 
