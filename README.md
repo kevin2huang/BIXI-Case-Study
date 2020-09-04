@@ -116,12 +116,93 @@ I started by merging the months of the 2018 data set and outputting the data int
 <img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="400" height="auto"/><br>
 Then add the lattitude and longitude for each station (I left out the station name).<br>
 <img src="/images/JOIN_2018_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
-Next I joined the temperature to the BIXI and Stations combined data set. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season.<br>
-<img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
-
+Next I joined the temperature to the BIXI and Stations combined data set into a new file called 2018_BIXI_Stations_Temperature.CSV. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season. I left out the wind speed, humidity, etc.<br>
+<img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
+Finally, the data set was split into a training(80%) and testing(20%) set.
+<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="600" height="auto"/><br>
 
 ### 3.5 Greet the data
+**Import data**
+```python
+# read train data set
+train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Train.csv", encoding= 'unicode_escape')
 
+# create a copy of train data to start exploring/modifying it
+train_copy = train_data.copy(deep = True)
+```
+**Preview data**
+```python
+# get a peek at the top 5 rows of the training data
+print(train_copy.head())
+```
+```
+   Year  Month  Day  Hour  ...  is_member   latitude  longitude  Temp (°C)
+0  2018      4   11     0  ...          0  45.511673 -73.562042        0.6
+1  2018      4   11     0  ...          1  45.518890 -73.563530        0.6
+2  2018      4   11     0  ...          1  45.502054 -73.573465        0.6
+3  2018      4   11     0  ...          1  45.507402 -73.578444        0.6
+4  2018      4   11     0  ...          1  45.507402 -73.578444        0.6
+```
+**Date column types and count**
+```python
+# understand the type of each column
+print(train_copy.info())
+```
+```
+RangeIndex: 4178921 entries, 0 to 4178920
+Data columns (total 11 columns):
+ #   Column              Dtype  
+---  ------              -----  
+ 0   Year                int64  
+ 1   Month               int64  
+ 2   Day                 int64  
+ 3   Hour                int64  
+ 4   start_station_code  int64  
+ 5   end_station_code    int64  
+ 6   duration_sec        int64  
+ 7   is_member           int64  
+ 8   latitude            float64
+ 9   longitude           float64
+ 10  Temp (°C)           float64
+dtypes: float64(3), int64(8)
+```
+**Summarize the central tendency, dispersion and shape**
+```python
+# get information on the numerical columns for the data set
+with pd.option_context('display.max_columns', 10):
+    print(train_copy.describe(include='all'))
+```
+```
+            Year         Month           Day          Hour  \
+count  	 4178921  	   4178921  	 4178921  	   4178921   
+mean        2018  	  7.267364  	15.72647  	  14.20463   
+std            0  	  1.778885  	8.767025  	  5.300635   
+min         2018  	  		 4   		   1  			 0   
+25%         2018  			 6   		   8  			10   
+50%         2018  			 7  		  16  			15   
+75%         2018  			 9  		  23  			18   
+max         2018  			11  		  31  			23   
+
+       start_station_code  end_station_code  duration_sec     is_member  \
+count        	  4178921      		4178921  	  4178921  		4178921   
+mean         	 6331.976      	   6327.396  	 800.6714  	  0.8308130   
+std          	 415.2819      	   429.9209  	 605.8301  	  0.3749170   
+min          		 4000      		   4000  		   61  			  0   
+25%          		 6114      		   6100  		  369  			  1   
+50%          		 6211      		   6205  		  643  			  1   
+75%          		 6397      		   6405  		 1075  			  1   
+max          		10002      		  10002  		 7199  			  1   
+
+           latitude     longitude     Temp (°C)
+count  		4178921  	  4178921  		4178921
+mean   	   45.51737 	-73.57979  	   19.58934
+std    	 0.02118086   0.02.083352  	   7.398439
+min    	   45.42947 	-73.66739 	  	  -10.7
+25%    	   45.50373 	-73.58976  	   	   15.1
+50%    	   45.51941 	-73.57635      	   21.2
+75%    	   45.53167 	-73.56545  		     25
+max    	   45.58276 	-73.49507  		   35.8
+```
 
 ## 4) Data Cleaning
 The data is cleaned in 4 steps:
