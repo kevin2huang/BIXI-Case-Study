@@ -51,6 +51,9 @@ from sklearn import metrics
 # read train data set
 train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Train.csv", encoding= 'unicode_escape')
 
+# read test data set
+test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Test.csv", encoding= 'unicode_escape')
+
 # create a copy of train data to start exploring/modifying it
 train_copy = train_data.copy(deep = True)
 
@@ -63,4 +66,17 @@ train_copy = train_data.copy(deep = True)
 # get information on the numerical columns for the training data set
 # with pd.option_context('display.max_columns', 11):
 #     print(train_copy.describe(include='all'))
+
+
+"""
+
+4.2) Completing null or missing data
+
+"""
+
+# find number of null values in each column
+print('Number of null values per column for train data:\n', train_copy.isnull().sum())
+
+# find number of null values in each column
+print('Number of null values per column for test data:\n', test_data.isnull().sum())
 
