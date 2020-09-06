@@ -201,7 +201,7 @@ min                  4000                NaN              4000            61
 max                 10002                NaN             10002          7199
 
            is_member      latitude     longitude     Temp (°C)
-count                      4178921       4178921       4178921
+count        4178921       4178921       4178921       4178921
 unique           NaN           NaN           NaN           NaN
 top              NaN           NaN           NaN           NaN
 freq             NaN           NaN           NaN           NaN
@@ -268,11 +268,14 @@ longitude             0
 Temp (°C)             0
 dtype: int64
 ```
-There aren't any null values for either train or test sets.
+There aren't any null values for either train or test sets so there are no additional steps required to fill in the null values.
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
 <img src="/images/Month_distribution.png" title="Distribution of BIXI rides by month" width="500" height="auto"/><br>
+```python
+print('Month:\n', train_copy.Month.value_counts(sort=False))
+```
 ```
 Month:
 4     182183
@@ -287,6 +290,9 @@ Name: Month, dtype: int64
 ```
 
 <img src="/images/Day_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
+```python
+print('Day:\n', train_copy.Day.value_counts(sort=False))
+```
 ```
 Day:
 1     141975
@@ -323,7 +329,10 @@ Day:
 Name: Day, dtype: int64
 ```
 
-<img src="/images/Hour_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
+<img src="/images/Hour_distribution.png" title="Distribution of BIXI rides by hour" width="500" height="auto"/><br>
+```python
+print('Hour:\n', train_copy.Hour.value_counts(sort=False))
+```
 ```
 Hour:
 0      77585
@@ -352,6 +361,19 @@ Hour:
 23    111575
 Name: Hour, dtype: int64
 ```
+The overall Hours distribution shows two peaks: the first at around 8AM and the second at around 5PM. These peak times correspond exactly to when people go to work and when they get off work so there could be a correlation there. I'll confirm that by plotting the distribution of rides on weekdays vs. weekends.
+
+<img src="/images/Hour_weekday_distribution.png" title="Distribution of BIXI rides by hour on weekdays" width="500" height="auto"/><br>
+
+<img src="/images/Hour_weekend_distribution.png" title="Distribution of BIXI rides by hour on weekends" width="500" height="auto"/><br>
+
+When comparing the weekday and weekend distribution, the graph clearly shows that the demand for BIXIs on weekdays correlates to the start and end of normal working hours. Whereas on weekends, the demand of BIXIs is high throughout the afternoon.
+
+<img src="/images/Member_percent.png" title="BIXI membership percentage" width="500" height="auto"/><br>
+
+The majority of riders are BIXI members. Based on the demand during weekdays, we can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
+
+
 
 ## 6) Model Building
 
