@@ -64,8 +64,8 @@ train_copy = train_data.copy(deep = True)
 # print(train_copy.info())
 
 # get information on the numerical columns for the training data set
-# with pd.option_context('display.max_columns', 11):
-#     print(train_copy.describe(include='all'))
+# with pd.option_context('display.max_columns', 12):
+    # print(train_copy.describe(include='all'))
 
 
 """
@@ -75,8 +75,27 @@ train_copy = train_data.copy(deep = True)
 """
 
 # find number of null values in each column
-print('Number of null values per column for train data:\n', train_copy.isnull().sum())
+# print('Number of null values per column for train data:\n', train_copy.isnull().sum())
 
 # find number of null values in each column
-print('Number of null values per column for test data:\n', test_data.isnull().sum())
+# print('Number of null values per column for test data:\n', test_data.isnull().sum())
 
+"""
+
+5) Data Exploration
+
+"""
+
+# explore the amount of unique variables
+train_copy.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code', 'end_date',
+       'end_station_code', 'duration_sec', 'is_member', 'latitude',
+       'longitude', 'Temperature']
+
+print('Month:\n', train_copy.Month.value_counts(sort=False))
+print('Day:\n', train_copy.Day.value_counts(sort=False))
+print('Hour:\n', train_copy.Hour.value_counts(sort=False))
+print('start_station_cod:\n', train_copy.start_station_code.value_counts())
+print('end_station_code:\n', train_copy.end_station_code.value_counts())
+print('duration_sec:\n', train_copy.duration_sec.value_counts())
+print('is_member:\n', train_copy.is_member.value_counts())
+print('Temp (°C):\n', train_copy.Temperature.value_counts())
