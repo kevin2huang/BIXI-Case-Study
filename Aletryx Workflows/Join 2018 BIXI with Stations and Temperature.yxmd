@@ -88,18 +88,20 @@
               <OrderChanged value="True" />
               <CommaDecimal value="False" />
               <SelectFields>
-                <SelectField field="Left_Year" selected="True" input="Left_" />
+                <SelectField field="Left_Year" selected="False" input="Left_" />
                 <SelectField field="Left_Month" selected="True" input="Left_" />
                 <SelectField field="Left_Day" selected="True" input="Left_" />
                 <SelectField field="Left_Hour" selected="True" input="Left_" />
                 <SelectField field="Left_code" selected="False" input="Left_" />
+                <SelectField field="Left_start_date" selected="True" input="Left_" />
                 <SelectField field="Left_start_station_code" selected="True" input="Left_" />
+                <SelectField field="Left_end_date" selected="True" input="Left_" />
                 <SelectField field="Left_end_station_code" selected="True" input="Left_" />
                 <SelectField field="Left_duration_sec" selected="True" input="Left_" />
                 <SelectField field="Left_is_member" selected="True" input="Left_" />
                 <SelectField field="Left_latitude" selected="True" input="Left_" />
                 <SelectField field="Left_longitude" selected="True" input="Left_" />
-                <SelectField field="Right_Date/Time" selected="False" input="Right_" />
+                <SelectField field="Right_Date/Time" selected="True" input="Right_" />
                 <SelectField field="Right_Year" selected="False" rename="Right_Year" input="Right_" />
                 <SelectField field="Right_Month" selected="False" rename="Right_Month" input="Right_" />
                 <SelectField field="Right_Day" selected="False" rename="Right_Day" input="Right_" />
@@ -212,7 +214,7 @@ Custom</DefaultAnnotationText>
       <Properties>
         <Configuration>
           <Passwords />
-          <File RecordLimit="" SearchSubDirs="False" FileFormat="0" OutputFileName="">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv</File>
+          <File RecordLimit="" SearchSubDirs="False" FileFormat="0" OutputFileName="">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv</File>
           <FormatSpecificOptions>
             <HeaderRow>True</HeaderRow>
             <IgnoreErrors>False</IgnoreErrors>
@@ -231,17 +233,20 @@ Custom</DefaultAnnotationText>
           <DefaultAnnotationText>2018_BIXI_and_Stations.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="start_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
-            <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="start_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
+            <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -303,9 +308,9 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
             <SelectField field="Month" selected="True" />
             <SelectField field="Day" selected="True" />
             <SelectField field="Hour" selected="True" />
-            <SelectField field="start_date" selected="False" />
+            <SelectField field="start_date" selected="True" />
             <SelectField field="start_station_code" selected="True" />
-            <SelectField field="end_date" selected="False" />
+            <SelectField field="end_date" selected="True" />
             <SelectField field="end_station_code" selected="True" />
             <SelectField field="duration_sec" selected="True" />
             <SelectField field="is_member" selected="True" />
