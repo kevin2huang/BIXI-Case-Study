@@ -377,9 +377,19 @@ The majority of riders are BIXI members. Based on the demand during weekdays, we
 
 <img src="/images/Temperature_distribution.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
 
-This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.
+This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.<br>
 
+Finally, I'll explore the locations of the BIXI stations. The traffic of each BIXI station can vary depending on location. To find out which stations are the most popular (more bikes in than out), I'll need to create a new column which I called "ratio" where I divided the number of bikes in by the number of bikes out for each station on a given day. I used Alteryx to complete this task.<br>
 
+<img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
+
+This outputs the results into a file titled 2018_BIXI_Stations_Temperature_Ratio_Train.CSV which is the same Training data set plus the ratio column.<br>
+
+<img src="/images/Station_popularity.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
+
+Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in. 
+
+<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="500" height="auto"/><br>
 
 ## 6) Model Building
 
