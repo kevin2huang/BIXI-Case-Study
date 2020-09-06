@@ -371,6 +371,8 @@ When comparing the weekday and weekend distribution, the graph clearly shows tha
 
 <img src="/images/Member_percent.png" title="BIXI membership percentage" width="500" height="auto"/><br>
 
+<img src="/images/Rides_by_membership.png" title="Rides by membership" width="500" height="auto"/><br>
+
 The majority of riders are BIXI members. Based on the demand during weekdays, we can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
 
 
