@@ -136,12 +136,12 @@ train_copy = train_data.copy(deep = True)
 print(train_copy.head())
 ```
 ```
-   Year  Month  Day  Hour  ...  is_member   latitude  longitude  Temp (°C)
-0  2018      4   11     0  ...          0  45.511673 -73.562042        0.6
-1  2018      4   11     0  ...          1  45.518890 -73.563530        0.6
-2  2018      4   11     0  ...          1  45.502054 -73.573465        0.6
-3  2018      4   11     0  ...          1  45.507402 -73.578444        0.6
-4  2018      4   11     0  ...          1  45.507402 -73.578444        0.6
+   Month  Day  Hour  ...   latitude  longitude Temp (°C)
+0      4   11     0  ...  45.511673 -73.562042       0.6
+1      4   11     0  ...  45.518890 -73.563530       0.6
+2      4   11     0  ...  45.502054 -73.573465       0.6
+3      4   11     0  ...  45.507402 -73.578444       0.6
+4      4   11     0  ...  45.507402 -73.578444       0.6
 ```
 **Date column types and count**
 ```python
@@ -150,58 +150,68 @@ print(train_copy.info())
 ```
 ```
 RangeIndex: 4178921 entries, 0 to 4178920
-Data columns (total 11 columns):
+Data columns (total 12 columns):
  #   Column              Dtype  
 ---  ------              -----  
- 0   Year                int64  
- 1   Month               int64  
- 2   Day                 int64  
- 3   Hour                int64  
+ 0   Month               int64  
+ 1   Day                 int64  
+ 2   Hour                int64  
+ 3   start_date          object 
  4   start_station_code  int64  
- 5   end_station_code    int64  
- 6   duration_sec        int64  
- 7   is_member           int64  
- 8   latitude            float64
- 9   longitude           float64
- 10  Temp (°C)           float64
-dtypes: float64(3), int64(8)
+ 5   end_date            object 
+ 6   end_station_code    int64  
+ 7   duration_sec        int64  
+ 8   is_member           int64  
+ 9   latitude            float64
+ 10  longitude           float64
+ 11  Temp (°C)           float64
+dtypes: float64(3), int64(7), object(2)
 ```
 **Summarize the central tendency, dispersion and shape**
 ```python
 # get information on the numerical columns for the data set
-with pd.option_context('display.max_columns', 11):
+with pd.option_context('display.max_columns', 12):
     print(train_copy.describe(include='all'))
 ```
 ```
-            Year         Month           Day          Hour  \
-count    4178921       4178921       4178921       4178921   
-mean        2018      7.267364      15.72647      14.20463   
-std            0      1.778885      8.767025      5.300635   
-min         2018             4             1             0   
-25%         2018             6             8            10   
-50%         2018             7            16            15   
-75%         2018             9            23            18   
-max         2018            11            31            23   
+           Month           Day          Hour        start_date  \
+count    4178921       4178921       4178921           4178921
+unique       NaN           NaN           NaN            287273
+top          NaN           NaN           NaN  2018-06-12 17:09
+freq         NaN           NaN           NaN                86
+mean    7.267364      15.72647      14.20463               NaN
+std     1.778885      8.767025      5.300635               NaN
+min            4             1             0               NaN
+25%            6             8            10               NaN
+50%            7            16            15               NaN
+75%            9            23            18               NaN
+max           11            31            23               NaN
 
-       start_station_code  end_station_code  duration_sec     is_member  \
-count             4178921           4178921       4178921       4178921   
-mean             6331.976          6327.396      800.6714     0.8308130   
-std              415.2819          429.9209      605.8301     0.3749170   
-min                  4000              4000            61             0   
-25%                  6114              6100           369             1   
-50%                  6211              6205           643             1   
-75%                  6397              6405          1075             1   
-max                 10002             10002          7199             1   
+       start_station_code           end_date  end_station_code  duration_sec \
+count             4178921            4178921           4178921       4178921
+unique                 NaN            286693               NaN           NaN
+top                    NaN  2018-05-29 17:43               NaN           NaN
+freq                   NaN                82               NaN           NaN
+mean             6331.976                NaN          6327.396      800.6714
+std              415.2819                NaN          429.9209      605.8301
+min                  4000                NaN              4000            61
+25%                  6114                NaN              6100           369
+50%                  6211                NaN              6205           643
+75%                  6397                NaN              6405          1075
+max                 10002                NaN             10002          7199
 
-           latitude     longitude     Temp (°C)
-count       4178921       4178921       4178921
-mean       45.51737     -73.57979      19.58934
-std      0.02118086    0.02083352      7.398439
-min        45.42947     -73.66739         -10.7
-25%        45.50373     -73.58976          15.1
-50%        45.51941     -73.57635          21.2
-75%        45.53167     -73.56545            25
-max        45.58276     -73.49507          35.8
+           is_member      latitude     longitude     Temp (°C)
+count                      4178921       4178921       4178921
+unique           NaN           NaN           NaN           NaN
+top              NaN           NaN           NaN           NaN
+freq             NaN           NaN           NaN           NaN
+mean       0.8308130      45.51737     -73.57979      19.58934
+std        0.3749170    0.02118086    0.02083352      7.398439
+min                0      45.42947     -73.66739         -10.7
+25%                1      45.50373     -73.58976          15.1
+50%                1      45.51941     -73.57635          21.2
+75%                1      45.53167     -73.56545            25
+max                1      45.58276     -73.49507          35.8
 ```
 
 ## 4) Data Cleaning
@@ -223,11 +233,12 @@ print('Number of null values per column for train data:\n', train_copy.isnull().
 ```
 ```
 Number of null values per column for train data:
-Year                  0
 Month                 0
 Day                   0
 Hour                  0
+start_date            0
 start_station_code    0
+end_date              0
 end_station_code      0
 duration_sec          0
 is_member             0
@@ -243,11 +254,12 @@ print('Number of null values per column for test data:\n', test_data.isnull().su
 ```
 ```
 Number of null values per column for test data:
-Year                  0
 Month                 0
 Day                   0
 Hour                  0
+start_date            0
 start_station_code    0
+end_date              0
 end_station_code      0
 duration_sec          0
 is_member             0
@@ -260,10 +272,86 @@ There aren't any null values for either train or test sets.
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
-**Month**<br>
 <img src="/images/Month_distribution.png" title="Distribution of BIXI rides by month" width="500" height="auto"/><br>
-**Day**<br>
+```
+Month:
+4     182183
+5     643942
+6     698231
+7     755511
+8     762220
+9     637312
+10    384976
+11    114546
+Name: Month, dtype: int64
+```
+
 <img src="/images/Day_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
+```
+Day:
+1     141975
+2     122977
+3     125215
+4     118463
+5     142648
+6     141348
+7     144381
+8     137525
+9     151748
+10    140580
+11    139363
+12    158823
+13    147832
+14    140710
+15    134940
+16    142692
+17    133639
+18    138495
+19    136057
+20    138889
+21    134152
+22    118169
+23    139634
+24    137261
+25    114937
+26    117510
+27    141612
+28    137538
+29    136726
+30    133541
+31     89541
+Name: Day, dtype: int64
+```
+
+<img src="/images/Hour_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
+```
+Hour:
+0      77585
+1      49081
+2      32696
+3      26876
+4      14405
+5      14620
+6      42359
+7     132110
+8     318224
+9     232269
+10    149916
+11    167944
+12    209297
+13    219174
+14    213518
+15    240697
+16    329268
+17    437753
+18    367625
+19    272174
+20    207645
+21    172181
+22    139929
+23    111575
+Name: Hour, dtype: int64
+```
 
 ## 6) Model Building
 
