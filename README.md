@@ -268,7 +268,7 @@ longitude             0
 Temp (°C)             0
 dtype: int64
 ```
-There aren't any null values for either train or test sets so there are no additional steps required to fill in the null values.
+There aren't any null values for either train or test sets so there are no additional steps required at this point.
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
@@ -374,6 +374,10 @@ When comparing the weekday and weekend distribution, the graph clearly shows tha
 <img src="/images/Rides_by_membership.png" title="Rides by membership" width="500" height="auto"/><br>
 
 The majority of riders are BIXI members. Based on the demand during weekdays, we can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
+
+<img src="/images/Temperature_distribution.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
+
+This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.
 
 
 
