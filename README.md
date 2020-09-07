@@ -13,10 +13,11 @@ This case study was part of my Data Science for Business Decisions course at McG
 3) [Prepare Data for Consumption](#3-prepare-data-for-consumption)<br>
 4) [Data Cleaning](#4-data-cleaning)<br>
 5) [Data Exploration](#5-data-exploration)<br>
-6) [Model Building](#6-model-building)<br>
-7) [Model Tuning](#7-model-tuning)<br>
-8) [Validate Data Model](#8-validate-data-model)<br>
-9) [Conclusion](#9-conclusion)
+6) [Feature Engineering](#6-feature-engineering)<br>
+7) [Model Building](#7-model-building)<br>
+8) [Model Tuning](#8-model-tuning)<br>
+9) [Validate Data Model](#9-validate-data-model)<br>
+10) [Conclusion](#10-conclusion)
 
 ## 1) Define the Problem
 The case study was provided.
@@ -110,7 +111,7 @@ The data dictionary for the data sets are as follows:<br>
 | Stn Press (kPa) | The standard pressure in kPa |  |
 
 ### 3.4 Data set restructuring
-The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed. To do this, I'll use Alteryx.<br>
+The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed from a single dataset. To do this, I'll use Alteryx.<br>
 
 I started by merging the months of the 2018 data set and outputting the data into a new file called OD_2018_all_months.CSV.<br>
 <img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="400" height="auto"/><br>
@@ -118,22 +119,17 @@ Then add the lattitude and longitude for each station (I left out the station na
 <img src="/images/JOIN_2018_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
 Next I joined the temperature to the BIXI and Stations combined data set into a new file called 2018_BIXI_Stations_Temperature.CSV. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season. I left out the wind speed, humidity, etc.<br>
 <img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
-Finally, the data set was split into a training(80%) and testing(20%) set.
-<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="400" height="auto"/><br>
 
 ### 3.5 Greet the data
 **Import data**
 ```python
 # read train data set
-train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Train.csv", encoding= 'unicode_escape')
-
-# create a copy of train data to start exploring/modifying it
-train_copy = train_data.copy(deep = True)
+BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature.csv", encoding= 'unicode_escape')
 ```
 **Preview data**
 ```python
 # get a peek at the top 5 rows of the training data
-print(train_copy.head())
+print(BIXI_data.head())
 ```
 ```
    Month  Day  Hour  ...   latitude  longitude Temp (°C)
@@ -146,10 +142,10 @@ print(train_copy.head())
 **Date column types and count**
 ```python
 # understand the type of each column
-print(train_copy.info())
+print(BIXI_data.info())
 ```
 ```
-RangeIndex: 4178921 entries, 0 to 4178920
+RangeIndex: 5223651 entries, 0 to 5223650
 Data columns (total 12 columns):
  #   Column              Dtype  
 ---  ------              -----  
@@ -171,16 +167,16 @@ dtypes: float64(3), int64(7), object(2)
 ```python
 # get information on the numerical columns for the data set
 with pd.option_context('display.max_columns', 12):
-    print(train_copy.describe(include='all'))
+    print(BIXI_data.describe(include='all'))
 ```
 ```
            Month           Day          Hour        start_date  \
-count    4178921       4178921       4178921           4178921
-unique       NaN           NaN           NaN            287273
-top          NaN           NaN           NaN  2018-06-12 17:09
-freq         NaN           NaN           NaN                86
-mean    7.267364      15.72647      14.20463               NaN
-std     1.778885      8.767025      5.300635               NaN
+count    5223651       5223651       5223651           5223651
+unique       NaN           NaN           NaN            292467
+top          NaN           NaN           NaN  2018-08-14 17:08
+freq         NaN           NaN           NaN               106
+mean    7.267356      15.72403      14.20556               NaN
+std     1.778988      8.767144      5.300635               NaN
 min            4             1             0               NaN
 25%            6             8            10               NaN
 50%            7            16            15               NaN
@@ -188,38 +184,36 @@ min            4             1             0               NaN
 max           11            31            23               NaN
 
        start_station_code           end_date  end_station_code  duration_sec \
-count             4178921            4178921           4178921       4178921
-unique                 NaN            286693               NaN           NaN
-top                    NaN  2018-05-29 17:43               NaN           NaN
-freq                   NaN                82               NaN           NaN
-mean             6331.976                NaN          6327.396      800.6714
-std              415.2819                NaN          429.9209      605.8301
+count             5223651            5223651           5223651       5223651
+unique                 NaN            291710               NaN           NaN
+top                    NaN  2018-09-06 17:39               NaN           NaN
+freq                   NaN               101               NaN           NaN
+mean             6331.992                NaN          6327.396      800.7508
+std              415.4750                NaN          430.1704      606.0940
 min                  4000                NaN              4000            61
-25%                  6114                NaN              6100           369
+25%                  6114                NaN              6100           370
 50%                  6211                NaN              6205           643
 75%                  6397                NaN              6405          1075
 max                 10002                NaN             10002          7199
 
            is_member      latitude     longitude     Temp (°C)
-count        4178921       4178921       4178921       4178921
+count        5223651       5223651       5223651       5223651
 unique           NaN           NaN           NaN           NaN
 top              NaN           NaN           NaN           NaN
 freq             NaN           NaN           NaN           NaN
-mean       0.8308130      45.51737     -73.57979      19.58934
-std        0.3749170    0.02118086    0.02083352      7.398439
+mean       0.8308645      45.51737     -73.57979      19.58934
+std        0.3748716    0.02118324    0.02083564      7.398439
 min                0      45.42947     -73.66739         -10.7
-25%                1      45.50373     -73.58976          15.1
+25%                1      45.50373     -73.58976          15.2
 50%                1      45.51941     -73.57635          21.2
 75%                1      45.53167     -73.56545            25
 max                1      45.58276     -73.49507          35.8
 ```
 
 ## 4) Data Cleaning
-The data is cleaned in 4 steps:
+The data is cleaned in 2 steps:
 1. Correcting outliers
 2. Completing null or missing data
-3. Creating new features
-4. Converting/Formatting datatypes
 
 ### 4.1 Correcting outliers
 Based on the summary above, there aren't any obvious outliers so I skipped this for now. Some outliers may be identified during the data exploration.
@@ -229,7 +223,7 @@ The columns containing null values need to be identified for both the training a
 **Training data**
 ```python
 # find number of null values in each column
-print('Number of null values per column for train data:\n', train_copy.isnull().sum())
+print('Number of null values per column:\n', BIXI_data.isnull().sum())
 ```
 ```
 Number of null values per column for train data:
@@ -247,28 +241,10 @@ longitude             0
 Temp (°C)             0
 dtype: int64
 ```
-**Testing data**
-```python
-# find number of null values in each column
-print('Number of null values per column for test data:\n', test_data.isnull().sum())
-```
-```
-Number of null values per column for test data:
-Month                 0
-Day                   0
-Hour                  0
-start_date            0
-start_station_code    0
-end_date              0
-end_station_code      0
-duration_sec          0
-is_member             0
-latitude              0
-longitude             0
-Temp (°C)             0
-dtype: int64
-```
-There aren't any null values for either train or test sets so there are no additional steps required at this point.
+
+There aren't any null values for the data sets so there are no additional steps required at this point.<br>
+
+
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
@@ -379,17 +355,16 @@ The majority of riders are BIXI members. Based on the demand during weekdays, we
 
 This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.<br>
 
-Finally, I'll explore the locations of the BIXI stations. The traffic of each BIXI station can vary depending on location. To find out which stations are the most popular (more bikes in than out), I'll need to create a new column which I called "ratio" where I divided the number of bikes in by the number of bikes out for each station on a given day. I used Alteryx to complete this task.<br>
+<img src="/images/Stations_distribution.png" title="Distribution of BIXI stations" width="500" height="auto"/><br>
 
-<img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
-
-This outputs the results into a file titled 2018_BIXI_Stations_Temperature_Ratio_Train.CSV which is the same Training data set plus the ratio column.<br>
-
-<img src="/images/Station_popularity.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
-
-Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in. 
+This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc. 
 
 ```python
+# split into numerical values
+df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
+							'end_station_code', 'duration_sec', 'latitude', 'longitude', 
+							'Temperature']]
+
 # plot a heatmap showing the correlation between all numerical columns
 print(df_numerical.corr())
 sns.heatmap(df_numerical.corr())
@@ -397,18 +372,63 @@ plt.show()
 ```
 <img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="600" height="auto"/><br>
 ```
-                    is_member     Month  ...  Temperature     Ratio
-is_member            1.000000  0.034015  ...    -0.095034 -0.033144
-Month                0.034015  1.000000  ...    -0.193317  0.000059
-Day                  0.000460 -0.155465  ...    -0.033650 -0.000061
-Hour                -0.036041 -0.017262  ...     0.141610  0.025480
-start_station_code   0.024168 -0.000301  ...    -0.011503 -0.032992
-end_station_code     0.020490 -0.001148  ...    -0.003394  0.000365
-duration_sec        -0.274452 -0.057616  ...     0.094470  0.054980
-latitude             0.064002  0.007376  ...    -0.028919 -0.120126
-longitude           -0.067223 -0.006124  ...     0.018507  0.302194
-Temperature         -0.095034 -0.193317  ...     1.000000  0.009786
-Ratio               -0.033144  0.000059  ...     0.009786  1.000000
+                    is_member     Month  ...  longitude  Temperature
+is_member            1.000000  0.033615  ...  -0.066868    -0.095171
+Month                0.033615  1.000000  ...  -0.005889    -0.193358
+Day                  0.000508 -0.155403  ...  -0.002202    -0.033552
+Hour                -0.036288 -0.017236  ...   0.016287     0.141312
+start_station_code   0.024376 -0.000506  ...  -0.197350    -0.011260
+end_station_code     0.020379 -0.001493  ...  -0.086674    -0.002884
+duration_sec        -0.274457 -0.057599  ...   0.014850     0.094586
+latitude             0.063988  0.007384  ...  -0.127652    -0.029114
+longitude           -0.066868 -0.005889  ...   1.000000     0.018355
+Temperature         -0.095171 -0.193358  ...   0.018355     1.000000
+```
+
+## 6) Feature Engineering
+For this data set I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes leaving it.
+
+<img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
+
+The Alteryx workflow will output the results into a file called 2018_BIXI_Stations_Temperature_Ratio.CSV.<br>
+
+Since the objective is to predict the demand of BIXI stations, the target variable would need to be defined. In this case, the target variable would be the amount of BIXI rides at a given station. I'll create an Alteryx workflow to create that column.<br>
+
+### 6.1 Exploration of new features
+The traffic of each BIXI station can vary depending on location. To find out which stations are the most popular (more bikes in than out), I plotted the map of BIXI stations and color coded the ratios.<br>
+
+This outputs the results into a file titled 2018_BIXI_Stations_Temperature_Ratio_Train.CSV which is the same Training data set plus the ratio column.<br>
+
+<img src="/images/Station_popularity.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
+
+Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in. 
+
+
+### 6.2 Convert Formats
+
+
+### 6.3 Split into Training and Testing Data
+Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
+
+<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="400" height="auto"/><br>
+```python
+# read train data
+train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Train_Data.csv", encoding= 'unicode_escape')
+
+# read test data
+test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Test_Data.csv", encoding= 'unicode_escape')
+
+# create a copy of train data to start exploring/modifying it
+train_copy = train_data.copy(deep = True)
+
+print("All Data Shape: {}".format(BIXI_data.shape))
+print("Train Data Shape: {}".format(train_data.shape))
+print("Test Data Shape: {}".format(test_data.shape))
+```
+```
+All Data Shape: (5223651, 12)
+Train Data Shape: (4178921, 13)
+Test Data Shape: (1044730, 13)
 ```
 
 ## 6) Model Building
