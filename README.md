@@ -386,25 +386,57 @@ Temperature         -0.095171 -0.193358  ...   0.018355     1.000000
 ```
 
 ## 6) Feature Engineering
-For this data set I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes leaving it.
+For this data set I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes leaving it.<br>
 
 <img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
 
 The Alteryx workflow will output the results into a file called 2018_BIXI_Stations_Temperature_Ratio.CSV.<br>
 
-Since the objective is to predict the demand of BIXI stations, the target variable would need to be defined. In this case, the target variable would be the amount of BIXI rides at a given station. I'll create an Alteryx workflow to create that column.<br>
+The temperature shows a clear correlation with demand but there are too many unique values. The temperature can be grouped into bins. I chose to split the temperatures in 8 bins of equal intervals.<br>
+
+<img src="/images/Create_temperature_bins.PNG" title="Bins for Temperature" width="500" height="auto"/><br>
+
+In addition, we saw that the demand of BIXIs is different on a weekday versus weekends so that feature should also be added.<br>
+
+<img src="/images/Day_of_week_2018.PNG" title="Add Day of week feature" width="500" height="auto"/><br>
+
+The objective is to predict the demand of BIXI stations but the target variable was not given as part of the initial dataset. The target variable needs to be defined as the amount of BIXI rides at a given station.<br>
+
+<img src="/images/Create_BIXI_count.PNG" title="BIXI demand" width="500" height="auto"/><br>
+
+The final output file with all the features is called 2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.CSV.
 
 ### 6.1 Exploration of new features
 The traffic of each BIXI station can vary depending on location. To find out which stations are the most popular (more bikes in than out), I plotted the map of BIXI stations and color coded the ratios.<br>
 
-This outputs the results into a file titled 2018_BIXI_Stations_Temperature_Ratio_Train.CSV which is the same Training data set plus the ratio column.<br>
+<img src="/images/Station_popularity.png" title="Distribution of BIXI rides by popularity" width="500" height="auto"/><br>
 
-<img src="/images/Station_popularity.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
+Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in.<br>
 
-Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in. 
+<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="500" height="auto"/><br>
 
+```python
+# read data with new features created using Alteryx
+new_BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv", encoding= 'unicode_escape')
+
+# explore amount of values per temperature bin
+print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
+```
+```
+Temperature Bin:
+1      15447
+2      40533
+3     319009
+4     553224
+5     946859
+6    1763696
+7    1385598
+8     199285
+Name: Temp_Bin, dtype: int64
+```
 
 ### 6.2 Convert Formats
+In this step, I will convert non-numerical data to dummy variables for mathematical analysis.
 
 
 ### 6.3 Split into Training and Testing Data
