@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-        <Position x="258" y="102" />
+        <Position x="246" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -25,7 +25,7 @@
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="66" y="102" />
+        <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -49,9 +49,6 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
@@ -77,7 +74,7 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="162" y="102" />
+        <Position x="150" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -112,7 +109,7 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-        <Position x="390" y="102" />
+        <Position x="378" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration joinByRecordPos="False">
@@ -133,7 +130,6 @@
               <OrderChanged value="True" />
               <CommaDecimal value="False" />
               <SelectFields>
-                <SelectField field="Left_start_station_code" selected="False" input="Left_" />
                 <SelectField field="Right_is_member" selected="True" input="Right_" />
                 <SelectField field="Right_Month" selected="True" input="Right_" />
                 <SelectField field="Right_Day" selected="True" input="Right_" />
@@ -143,18 +139,19 @@
                 <SelectField field="Left_DayofWeek" selected="True" input="Left_" />
                 <SelectField field="Right_DayofWeek" selected="False" rename="Right_DayofWeek" input="Right_" />
                 <SelectField field="Right_DayofWeek_name" selected="True" input="Right_" />
+                <SelectField field="Left_start_station_code" selected="True" input="Left_" />
                 <SelectField field="Right_start_station_code" selected="False" rename="Right_start_station_code" input="Right_" />
                 <SelectField field="Right_end_station_code" selected="True" input="Right_" />
                 <SelectField field="Right_end_date" selected="True" input="Right_" />
                 <SelectField field="Right_duration_sec" selected="True" input="Right_" />
                 <SelectField field="Right_latitude" selected="True" input="Right_" />
                 <SelectField field="Right_longitude" selected="True" input="Right_" />
-                <SelectField field="Right_Temp (°C)" selected="True" input="Right_" />
+                <SelectField field="Right_Temp (°C)" selected="True" rename="Temperature" input="Right_" />
                 <SelectField field="Left_Temp (°C)" selected="False" input="Left_" />
                 <SelectField field="Right_Ratio" selected="True" input="Right_" />
                 <SelectField field="Right_Temp_Bin" selected="False" rename="Right_Temp_Bin" input="Right_" />
                 <SelectField field="Left_Temp_Bin" selected="True" input="Left_" />
-                <SelectField field="Left_Count" selected="True" input="Left_" />
+                <SelectField field="Left_Count" selected="True" rename="Demand" input="Left_" />
                 <SelectField field="*Unknown" selected="True" />
               </SelectFields>
             </Configuration>
@@ -170,7 +167,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="510" y="102" />
+        <Position x="498" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -191,9 +188,6 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
