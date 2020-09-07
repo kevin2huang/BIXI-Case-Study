@@ -362,8 +362,8 @@ This graph shows the number of BIXI rides by station. Some stations are more fre
 ```python
 # split into numerical values
 df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
-							'end_station_code', 'duration_sec', 'latitude', 'longitude', 
-							'Temperature']]
+                          'end_station_code', 'duration_sec', 'latitude', 'longitude', 
+                          'Temperature']]
 
 # plot a heatmap showing the correlation between all numerical columns
 print(df_numerical.corr())
@@ -386,7 +386,7 @@ Temperature         -0.095171 -0.193358  ...   0.018355     1.000000
 ```
 
 ## 6) Feature Engineering
-For this data set I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes leaving it.<br>
+For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
 
 <img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
 
@@ -402,7 +402,7 @@ In addition, we saw that the demand of BIXIs is different on a weekday versus we
 
 The objective is to predict the demand of BIXI stations but the target variable was not given as part of the initial dataset. The target variable needs to be defined as the amount of BIXI rides at a given station.<br>
 
-<img src="/images/Create_BIXI_count.PNG" title="BIXI demand" width="500" height="auto"/><br>
+<img src="/images/create_BIXI_count.PNG" title="BIXI demand" width="500" height="auto"/><br>
 
 The final output file with all the features is called 2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.CSV.
 
@@ -413,7 +413,7 @@ The traffic of each BIXI station can vary depending on location. To find out whi
 
 Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in.<br>
 
-<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="500" height="auto"/><br>
+<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="auto" height="700"/><br>
 
 ```python
 # read data with new features created using Alteryx
