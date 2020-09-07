@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2020.2">
+  <Nodes>
+    <Node ToolID="1">
+      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+        <Position x="258" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SummarizeFields>
+            <SummarizeField field="start_station_code" action="Count" rename="Count" />
+            <SummarizeField field="Hour" action="GroupBy" rename="Hour" />
+            <SummarizeField field="DayofWeek" action="GroupBy" rename="DayofWeek" />
+            <SummarizeField field="start_station_code" action="GroupBy" rename="start_station_code" />
+            <SummarizeField field="Temp_Bin" action="GroupBy" rename="Temp_Bin" />
+          </SummarizeFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+    </Node>
+    <Node ToolID="2">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+        <Position x="66" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Passwords />
+          <File RecordLimit="" SearchSubDirs="False" FileFormat="0" OutputFileName="">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv</File>
+          <FormatSpecificOptions>
+            <HeaderRow>True</HeaderRow>
+            <IgnoreErrors>False</IgnoreErrors>
+            <AllowShareWrite>False</AllowShareWrite>
+            <ImportLine>1</ImportLine>
+            <FieldLen>254</FieldLen>
+            <SingleThreadRead>False</SingleThreadRead>
+            <IgnoreQuotes>DoubleQuotes</IgnoreQuotes>
+            <Delimeter>,</Delimeter>
+            <QuoteRecordBreak>False</QuoteRecordBreak>
+            <CodePage>28591</CodePage>
+          </FormatSpecificOptions>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+        <MetaInfo connection="Output">
+          <RecordInfo>
+            <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Month" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Day" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Hour" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="StartDate" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="DayofWeek" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="DayofWeek_name" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Temp_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="162" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="is_member" selected="True" type="Int16" size="2" />
+            <SelectField field="Month" selected="True" type="Int16" size="2" />
+            <SelectField field="Day" selected="True" type="Int16" size="2" />
+            <SelectField field="Hour" selected="True" type="Int16" size="2" />
+            <SelectField field="StartDate" selected="True" type="Date" size="10" />
+            <SelectField field="DayofWeek" selected="True" type="Int16" size="2" />
+            <SelectField field="start_station_code" selected="True" type="Int64" size="8" />
+            <SelectField field="end_station_code" selected="True" type="Int64" size="8" />
+            <SelectField field="end_date" selected="True" type="Date" size="10" />
+            <SelectField field="duration_sec" selected="True" type="Int64" size="8" />
+            <SelectField field="latitude" selected="True" type="Double" size="8" />
+            <SelectField field="longitude" selected="True" type="Double" size="8" />
+            <SelectField field="Temp (°C)" selected="True" type="Double" size="8" />
+            <SelectField field="Temp_Bin" selected="True" type="Int16" size="2" />
+            <SelectField field="Ratio" selected="True" type="Double" size="8" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="5">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+        <Position x="390" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration joinByRecordPos="False">
+          <JoinInfo connection="Left">
+            <Field field="start_station_code" />
+            <Field field="Hour" />
+            <Field field="DayofWeek" />
+            <Field field="Temp_Bin" />
+          </JoinInfo>
+          <JoinInfo connection="Right">
+            <Field field="start_station_code" />
+            <Field field="Hour" />
+            <Field field="DayofWeek" />
+            <Field field="Temp_Bin" />
+          </JoinInfo>
+          <SelectConfiguration>
+            <Configuration outputConnection="Join">
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Left_start_station_code" selected="False" input="Left_" />
+                <SelectField field="Right_is_member" selected="True" input="Right_" />
+                <SelectField field="Right_Month" selected="True" input="Right_" />
+                <SelectField field="Right_Day" selected="True" input="Right_" />
+                <SelectField field="Left_Hour" selected="True" input="Left_" />
+                <SelectField field="Right_Hour" selected="False" rename="Right_Hour" input="Right_" />
+                <SelectField field="Right_StartDate" selected="True" input="Right_" />
+                <SelectField field="Left_DayofWeek" selected="True" input="Left_" />
+                <SelectField field="Right_DayofWeek" selected="False" rename="Right_DayofWeek" input="Right_" />
+                <SelectField field="Right_DayofWeek_name" selected="True" input="Right_" />
+                <SelectField field="Right_start_station_code" selected="False" rename="Right_start_station_code" input="Right_" />
+                <SelectField field="Right_end_station_code" selected="True" input="Right_" />
+                <SelectField field="Right_end_date" selected="True" input="Right_" />
+                <SelectField field="Right_duration_sec" selected="True" input="Right_" />
+                <SelectField field="Right_latitude" selected="True" input="Right_" />
+                <SelectField field="Right_longitude" selected="True" input="Right_" />
+                <SelectField field="Right_Temp (°C)" selected="True" input="Right_" />
+                <SelectField field="Left_Temp (°C)" selected="False" input="Left_" />
+                <SelectField field="Right_Ratio" selected="True" input="Right_" />
+                <SelectField field="Right_Temp_Bin" selected="False" rename="Right_Temp_Bin" input="Right_" />
+                <SelectField field="Left_Temp_Bin" selected="True" input="Left_" />
+                <SelectField field="Left_Count" selected="True" input="Left_" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+          </SelectConfiguration>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+        <Position x="510" y="102" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <File MaxRecords="" FileFormat="0">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv</File>
+          <Passwords />
+          <FormatSpecificOptions>
+            <LineEndStyle>CRLF</LineEndStyle>
+            <Delimeter>,</Delimeter>
+            <ForceQuotes>False</ForceQuotes>
+            <HeaderRow>True</HeaderRow>
+            <CodePage>28591</CodePage>
+            <WriteBOM>True</WriteBOM>
+          </FormatSpecificOptions>
+          <MultiFile value="False" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="1" Connection="Output" />
+      <Destination ToolID="5" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="5" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output" />
+      <Destination ToolID="3" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="3" Connection="Output" />
+      <Destination ToolID="1" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Join" />
+      <Destination ToolID="6" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>Add Station count feature</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
