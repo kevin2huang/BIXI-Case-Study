@@ -80,6 +80,7 @@ train_copy = train_data.copy(deep = True)
 # find number of null values in each column
 # print('Number of null values per column for test data:\n', test_data.isnull().sum())
 
+
 """
 
 5) Data Exploration
@@ -87,15 +88,34 @@ train_copy = train_data.copy(deep = True)
 """
 
 # explore the amount of unique variables
-train_copy.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code', 'end_date',
-       'end_station_code', 'duration_sec', 'is_member', 'latitude',
-       'longitude', 'Temperature']
+train_copy.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code', 'end_date', 
+                      'end_station_code', 'duration_sec', 'is_member', 'latitude', 'longitude', 
+                      'Temperature']
 
-print('Month:\n', train_copy.Month.value_counts(sort=False))
-print('Day:\n', train_copy.Day.value_counts(sort=False))
-print('Hour:\n', train_copy.Hour.value_counts(sort=False))
-print('start_station_cod:\n', train_copy.start_station_code.value_counts())
-print('end_station_code:\n', train_copy.end_station_code.value_counts())
-print('duration_sec:\n', train_copy.duration_sec.value_counts())
-print('is_member:\n', train_copy.is_member.value_counts())
-print('Temp (°C):\n', train_copy.Temperature.value_counts())
+# print('Month:\n', train_copy.Month.value_counts(sort=False))
+# print('Day:\n', train_copy.Day.value_counts(sort=False))
+# print('Hour:\n', train_copy.Hour.value_counts(sort=False))
+# print('start_station_cod:\n', train_copy.start_station_code.value_counts())
+# print('end_station_code:\n', train_copy.end_station_code.value_counts())
+# print('duration_sec:\n', train_copy.duration_sec.value_counts())
+# print('is_member:\n', train_copy.is_member.value_counts())
+# print('Temp (°C):\n', train_copy.Temperature.value_counts())
+
+# see if there are any correlations between the columns
+# read new training data set which has the ratio column
+train_data2 = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Ratio_Train.csv", encoding= 'unicode_escape')
+
+# rename Temp (°C) column to Temperature
+train_data2.columns = ['is_member', 'Month', 'Day', 'Hour', 'start_date', 'start_station_code', 
+					   'end_station_code', 'end_date', 'duration_sec', 'latitude', 'longitude', 
+					   'Temperature', 'Ratio']
+
+# split into numerical values
+df_numerical = train_data2[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
+							'end_station_code', 'duration_sec', 'latitude', 'longitude', 
+							'Temperature', 'Ratio']]
+
+# plot a heatmap showing the correlation between all numerical columns
+print(df_numerical.corr())
+sns.heatmap(df_numerical.corr())
+plt.show()
