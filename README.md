@@ -389,7 +389,27 @@ This outputs the results into a file titled 2018_BIXI_Stations_Temperature_Ratio
 
 Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in. 
 
-<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="500" height="auto"/><br>
+```python
+# plot a heatmap showing the correlation between all numerical columns
+print(df_numerical.corr())
+sns.heatmap(df_numerical.corr())
+plt.show()
+```
+<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="600" height="auto"/><br>
+```
+                    is_member     Month  ...  Temperature     Ratio
+is_member            1.000000  0.034015  ...    -0.095034 -0.033144
+Month                0.034015  1.000000  ...    -0.193317  0.000059
+Day                  0.000460 -0.155465  ...    -0.033650 -0.000061
+Hour                -0.036041 -0.017262  ...     0.141610  0.025480
+start_station_code   0.024168 -0.000301  ...    -0.011503 -0.032992
+end_station_code     0.020490 -0.001148  ...    -0.003394  0.000365
+duration_sec        -0.274452 -0.057616  ...     0.094470  0.054980
+latitude             0.064002  0.007376  ...    -0.028919 -0.120126
+longitude           -0.067223 -0.006124  ...     0.018507  0.302194
+Temperature         -0.095034 -0.193317  ...     1.000000  0.009786
+Ratio               -0.033144  0.000059  ...     0.009786  1.000000
+```
 
 ## 6) Model Building
 
