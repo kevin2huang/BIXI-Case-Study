@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="30" y="246" />
+        <Position x="66" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,9 +27,6 @@
           <DefaultAnnotationText>Temperature Dataset 2018.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="Date/Time" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Temperature Dataset 2018.csv" type="V_String" />
@@ -50,7 +47,7 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="306" y="246" />
+        <Position x="342" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -69,7 +66,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-        <Position x="522" y="138" />
+        <Position x="558" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration joinByRecordPos="False">
@@ -128,11 +125,11 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="654" y="138" />
+        <Position x="690" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <File MaxRecords="" FileFormat="0">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv</File>
+          <File MaxRecords="" FileFormat="0">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv</File>
           <Passwords />
           <FormatSpecificOptions>
             <LineEndStyle>CRLF</LineEndStyle>
@@ -157,7 +154,7 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="426" y="246" />
+        <Position x="462" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -188,7 +185,7 @@
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DateTime.DateTime">
-        <Position x="174" y="246" />
+        <Position x="210" y="246" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -209,7 +206,7 @@ Custom</DefaultAnnotationText>
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="18" y="54" />
+        <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -233,9 +230,6 @@ Custom</DefaultAnnotationText>
           <DefaultAnnotationText>2018_BIXI_and_Stations.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="start_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_and_Stations.csv" type="V_String" />
@@ -254,7 +248,7 @@ Custom</DefaultAnnotationText>
     </Node>
     <Node ToolID="12">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DateTime.DateTime">
-        <Position x="174" y="54" />
+        <Position x="210" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -275,7 +269,7 @@ Custom</DefaultAnnotationText>
     </Node>
     <Node ToolID="13">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="306" y="54" />
+        <Position x="342" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -297,7 +291,7 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
     </Node>
     <Node ToolID="14">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="426" y="54" />
+        <Position x="462" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
