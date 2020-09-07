@@ -31,7 +31,13 @@ import seaborn as sns
 from pandas.plotting import scatter_matrix
 
 #Common Model Algorithms
-from sklearn import svm, tree, linear_model, neighbors, naive_bayes, ensemble, discriminant_analysis, gaussian_process
+from sklearn.model_selection import cross_val_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn import tree
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 #Common Model Helpers
@@ -99,7 +105,26 @@ df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_co
 
 # plot a heatmap showing the correlation between all numerical columns
 # print(df_numerical.corr())
-# sns.heatmap(df_numerical.corr())
+
+#correlation heatmap of dataset
+def correlation_heatmap(df):
+    _ , ax = plt.subplots(figsize =(14, 12))
+    colormap = sns.diverging_palette(220, 10, as_cmap = True)
+    
+    _ = sns.heatmap(
+        df.corr(), 
+        cmap = colormap,
+        square=True, 
+        cbar_kws={'shrink':.9 }, 
+        ax=ax,
+        annot=True, 
+        linewidths=0.1,vmax=1.0, linecolor='white',
+        annot_kws={'fontsize':12 }
+    )
+    
+    plt.title('Pearson Correlation of Features', y=1.05, size=15)
+
+# correlation_heatmap(df_numerical)
 # plt.show()
 
 
@@ -112,14 +137,12 @@ df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_co
 new_BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv", encoding= 'unicode_escape')
 
 # explore amount of values per temperature bin
-print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
-
-
+# print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
 
 
 """
 
-6.3) Split into Training and Testing Data
+6.2) Split into Training and Testing Data
 
 """
 
@@ -135,3 +158,34 @@ train_copy = train_data.copy(deep = True)
 # print("All Data Shape: {}".format(BIXI_data.shape))
 # print("Train Data Shape: {}".format(train_data.shape))
 # print("Test Data Shape: {}".format(test_data.shape))
+
+
+"""
+
+7.1) Data Preprocessing for Model
+
+"""
+
+# define target variable y of the training data set
+y_train = train_copy["Demand"]
+
+# define features to be used for the predictive models
+features = ['Month', 'Hour', 'DayofWeek', 'start_station_code', 'Temp_Bin']
+
+# define x-axis variables for training and testing data sets
+x_train = pd.get_dummies(train_copy[features])
+x_test = pd.get_dummies(test_data[features])
+
+
+"""
+
+7.2) Model Building
+
+"""
+
+# Gaussian Naive Bayes
+gnb = GaussianNB()
+cv = cross_val_score(gnb, x_train, y_train, cv=5)
+print(cv)
+print(cv.mean())
+
