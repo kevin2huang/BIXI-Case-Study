@@ -62,14 +62,21 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
 import seaborn as sns
-from pandas.tools.plotting import scatter_matrix
+from pandas.plotting import scatter_matrix
 
 #Common Model Algorithms
-from sklearn import svm, tree, linear_model, neighbors, naive_bayes, ensemble, discriminant_analysis, gaussian_process
+from sklearn.model_selection import cross_val_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn import tree
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 #Common Model Helpers
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from sklearn.model_selection import train_test_split
 from sklearn import feature_selection
 from sklearn import model_selection
 from sklearn import metrics
@@ -367,10 +374,7 @@ df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_co
 
 # plot a heatmap showing the correlation between all numerical columns
 print(df_numerical.corr())
-sns.heatmap(df_numerical.corr())
-plt.show()
 ```
-<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="600" height="auto"/><br>
 ```
                     is_member     Month  ...  longitude  Temperature
 is_member            1.000000  0.033615  ...  -0.066868    -0.095171
@@ -384,6 +388,30 @@ latitude             0.063988  0.007384  ...  -0.127652    -0.029114
 longitude           -0.066868 -0.005889  ...   1.000000     0.018355
 Temperature         -0.095171 -0.193358  ...   0.018355     1.000000
 ```
+```python
+#correlation heatmap of dataset
+def correlation_heatmap(df):
+    _ , ax = plt.subplots(figsize =(14, 12))
+    colormap = sns.diverging_palette(220, 10, as_cmap = True)
+    
+    _ = sns.heatmap(
+        df.corr(), 
+        cmap = colormap,
+        square=True, 
+        cbar_kws={'shrink':.9 }, 
+        ax=ax,
+        annot=True, 
+        linewidths=0.1,vmax=1.0, linecolor='white',
+        annot_kws={'fontsize':12 }
+    )
+    
+    plt.title('Pearson Correlation of Features', y=1.05, size=15)
+
+correlation_heatmap(df_numerical)
+plt.show()
+```
+<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="600" height="auto"/><br>
+
 
 ## 6) Feature Engineering
 For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
@@ -413,7 +441,7 @@ The traffic of each BIXI station can vary depending on location. To find out whi
 
 Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in.<br>
 
-<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="auto" height="700"/><br>
+<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="auto" height="600"/><br>
 
 ```python
 # read data with new features created using Alteryx
@@ -435,11 +463,7 @@ Temperature Bin:
 Name: Temp_Bin, dtype: int64
 ```
 
-### 6.2 Convert Formats
-In this step, I will convert non-numerical data to dummy variables for mathematical analysis.
-
-
-### 6.3 Split into Training and Testing Data
+### 6.2 Split into Training and Testing Data
 Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
 
 <img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="400" height="auto"/><br>
@@ -459,15 +483,31 @@ print("Test Data Shape: {}".format(test_data.shape))
 ```
 ```
 All Data Shape: (5223651, 12)
-Train Data Shape: (4178921, 13)
-Test Data Shape: (1044730, 13)
+Train Data Shape: (4178921, 16)
+Test Data Shape: (1044730, 16)
 ```
 
-## 6) Model Building
+## 7) Evaluate Model Performance
 
-## 7) Model Tuning
+### 7.1 Data Preprocessing for Model
+```python
+# define target variable y of the training data set
+y_train = train_copy["Demand"]
 
-## 8) Validate Data Model
+# define features to be used for the predictive models
+features = ['Month', 'Hour', 'DayofWeek', 'start_station_code', 'Temp_Bin']
 
-## 9) Conclusion
+# define x-axis variables for training and testing data sets
+x_train = pd.get_dummies(train_copy[features])
+x_test = pd.get_dummies(test_data[features])
+```
+
+### 7.2 Model Building
+
+
+## 8) Model Tuning
+
+## 9) Validate Data Model
+
+## 10) Conclusion
 
