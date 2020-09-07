@@ -49,23 +49,17 @@ from sklearn import metrics
 """
 
 # read train data set
-train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Train.csv", encoding= 'unicode_escape')
-
-# read test data set
-test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Test.csv", encoding= 'unicode_escape')
-
-# create a copy of train data to start exploring/modifying it
-train_copy = train_data.copy(deep = True)
+BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature.csv", encoding= 'unicode_escape')
 
 # get a peek at the top 5 rows of the training data
-# print(train_copy.head())
+# print(BIXI_data.head())
 
 # understand the type of each column
-# print(train_copy.info())
+# print(BIXI_data.info())
 
 # get information on the numerical columns for the training data set
 # with pd.option_context('display.max_columns', 12):
-    # print(train_copy.describe(include='all'))
+    # print(BIXI_data.describe(include='all'))
 
 
 """
@@ -75,10 +69,7 @@ train_copy = train_data.copy(deep = True)
 """
 
 # find number of null values in each column
-# print('Number of null values per column for train data:\n', train_copy.isnull().sum())
-
-# find number of null values in each column
-# print('Number of null values per column for test data:\n', test_data.isnull().sum())
+# print('Number of null values per column for train data:\n', BIXI_data.isnull().sum())
 
 
 """
@@ -88,7 +79,7 @@ train_copy = train_data.copy(deep = True)
 """
 
 # explore the amount of unique variables
-train_copy.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code', 'end_date', 
+BIXI_data.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code', 'end_date', 
                       'end_station_code', 'duration_sec', 'is_member', 'latitude', 'longitude', 
                       'Temperature']
 
@@ -101,21 +92,46 @@ train_copy.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code'
 # print('is_member:\n', train_copy.is_member.value_counts())
 # print('Temp (°C):\n', train_copy.Temperature.value_counts())
 
-# see if there are any correlations between the columns
-# read new training data set which has the ratio column
-train_data2 = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature_Ratio_Train.csv", encoding= 'unicode_escape')
-
-# rename Temp (°C) column to Temperature
-train_data2.columns = ['is_member', 'Month', 'Day', 'Hour', 'start_date', 'start_station_code', 
-					   'end_station_code', 'end_date', 'duration_sec', 'latitude', 'longitude', 
-					   'Temperature', 'Ratio']
-
 # split into numerical values
-df_numerical = train_data2[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
+df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
 							'end_station_code', 'duration_sec', 'latitude', 'longitude', 
-							'Temperature', 'Ratio']]
+							'Temperature']]
 
 # plot a heatmap showing the correlation between all numerical columns
-print(df_numerical.corr())
-sns.heatmap(df_numerical.corr())
-plt.show()
+# print(df_numerical.corr())
+# sns.heatmap(df_numerical.corr())
+# plt.show()
+
+
+"""
+
+6.1) Exploration of new features
+
+"""
+# read data with new features created using Alteryx
+new_BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv", encoding= 'unicode_escape')
+
+# explore amount of values per temperature bin
+print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
+
+
+
+
+"""
+
+6.3) Split into Training and Testing Data
+
+"""
+
+# read train data
+train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Train_Data.csv", encoding= 'unicode_escape')
+
+# read test data
+test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Test_Data.csv", encoding= 'unicode_escape')
+
+# create a copy of train data to start exploring/modifying it
+train_copy = train_data.copy(deep = True)
+
+# print("All Data Shape: {}".format(BIXI_data.shape))
+# print("Train Data Shape: {}".format(train_data.shape))
+# print("Test Data Shape: {}".format(test_data.shape))
