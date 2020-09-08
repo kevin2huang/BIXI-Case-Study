@@ -1,7 +1,5 @@
 # BIXI Case Study
 
-This case study was part of my Data Science for Business Decisions course at McGill.
-
 ## Technology and Resources Used
 
 **Python Version**: 3.7.7<br>
@@ -20,8 +18,7 @@ This case study was part of my Data Science for Business Decisions course at McG
 10) [Conclusion](#10-conclusion)
 
 ## 1) Define the Problem
-The case study was provided.
->The mandate is to strengthen BIXI’s demand prediction capabilities. BIXI would like to estimate its bicycle demand based on their data from 2018.
+>The mandate is to strengthen BIXI’s demand prediction capabilities. BIXI would like to estimate its bicycle demand by hour of the day based on their data from 2018.
 
 ## 2) Gather the Data
 The data sets were provided by the course. I uploaded them in the data sets folder.
@@ -139,12 +136,12 @@ BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations
 print(BIXI_data.head())
 ```
 ```
-   Month  Day  Hour  ...   latitude  longitude Temp (°C)
-0      4   11     0  ...  45.511673 -73.562042       0.6
-1      4   11     0  ...  45.518890 -73.563530       0.6
-2      4   11     0  ...  45.502054 -73.573465       0.6
-3      4   11     0  ...  45.507402 -73.578444       0.6
-4      4   11     0  ...  45.507402 -73.578444       0.6
+   Month  Day  Hour  ... Wind Dir (10s deg)  Wind Spd (km/h) Stn Press (kPa)
+0      4   11     0  ...                 20                7          101.14
+1      4   11     0  ...                 20                7          101.14
+2      4   11     0  ...                 20                7          101.14
+3      4   11     0  ...                 20                7          101.14
+4      4   11     0  ...                 20                7          101.14
 ```
 **Date column types and count**
 ```python
@@ -153,27 +150,32 @@ print(BIXI_data.info())
 ```
 ```
 RangeIndex: 5223651 entries, 0 to 5223650
-Data columns (total 12 columns):
- #   Column              Dtype  
----  ------              -----  
- 0   Month               int64  
- 1   Day                 int64  
- 2   Hour                int64  
- 3   start_date          object 
- 4   start_station_code  int64  
- 5   end_date            object 
- 6   end_station_code    int64  
- 7   duration_sec        int64  
- 8   is_member           int64  
- 9   latitude            float64
- 10  longitude           float64
- 11  Temp (°C)           float64
-dtypes: float64(3), int64(7), object(2)
+Data columns (total 17 columns):
+ #   Column               Dtype  
+---  ------               -----  
+ 0   Month                int64  
+ 1   Day                  int64  
+ 2   Hour                 int64  
+ 3   start_date           object 
+ 4   start_station_code   int64  
+ 5   end_date             object 
+ 6   end_station_code     int64  
+ 7   duration_sec         int64  
+ 8   is_member            int64  
+ 9   latitude             float64
+ 10  longitude            float64
+ 11  Temp (°C)            float64
+ 12  Dew Point Temp (°C)  float64
+ 13  Rel Hum (%)          int64  
+ 14  Wind Dir (10s deg)   int64  
+ 15  Wind Spd (km/h)      int64  
+ 16  Stn Press (kPa)      float64
+dtypes: float64(5), int64(10), object(2)
 ```
 **Summarize the central tendency, dispersion and shape**
 ```python
 # get information on the numerical columns for the data set
-with pd.option_context('display.max_columns', 12):
+with pd.option_context('display.max_columns', len(BIXI_data.columns)):
     print(BIXI_data.describe(include='all'))
 ```
 ```
@@ -203,7 +205,7 @@ min                  4000                NaN              4000            61
 75%                  6397                NaN              6405          1075
 max                 10002                NaN             10002          7199
 
-           is_member      latitude     longitude     Temp (°C)
+           is_member      latitude     longitude     Temp (°C)  \
 count        5223651       5223651       5223651       5223651
 unique           NaN           NaN           NaN           NaN
 top              NaN           NaN           NaN           NaN
@@ -215,6 +217,32 @@ min                0      45.42947     -73.66739         -10.7
 50%                1      45.51941     -73.57635          21.2
 75%                1      45.53167     -73.56545            25
 max                1      45.58276     -73.49507          35.8
+
+        Dew Point Temp (°C)   Rel Hum (%)  Wind Dir (10s deg)  \
+count               5223651       5223651             5223651   
+unique                  NaN           NaN                 NaN   
+top                     NaN           NaN                 NaN   
+freq                    NaN           NaN                 NaN   
+mean               9.845254      56.56023            18.82941   
+std                  7.8752      18.91035            9.731781   
+min                   -19.3            16                   0
+25%                     4.3            41                  15   
+50%                    10.7            56                  20   
+75%                      16            71                  25   
+max                    24.3            99                  36
+
+        Wind Spd (km/h)  Stn Press (kPa)
+count           5223651          5223651
+unique              NaN              NaN
+top                 NaN              NaN
+freq                NaN              NaN
+mean           6.283840         100.7311
+std            2.828469        0.6325684
+min                   1            98.39
+25%                   4           100.34
+50%                   6           100.76
+75%                   8           101.13
+max                  20           102.83
 ```
 
 ## 4) Data Cleaning
@@ -233,19 +261,24 @@ The columns containing null values need to be identified for both the training a
 print('Number of null values per column:\n', BIXI_data.isnull().sum())
 ```
 ```
-Number of null values per column for train data:
-Month                 0
-Day                   0
-Hour                  0
-start_date            0
-start_station_code    0
-end_date              0
-end_station_code      0
-duration_sec          0
-is_member             0
-latitude              0
-longitude             0
-Temp (°C)             0
+Number of null values per column:
+Month                  0
+Day                    0
+Hour                   0
+start_date             0
+start_station_code     0
+end_date               0
+end_station_code       0
+duration_sec           0
+is_member              0
+latitude               0
+longitude              0
+Temp (°C)              0
+Dew Point Temp (°C)    0
+Rel Hum (%)            0
+Wind Dir (10s deg)     0
+Wind Spd (km/h)        0
+Stn Press (kPa)        0
 dtype: int64
 ```
 
@@ -261,14 +294,14 @@ print('Month:\n', train_copy.Month.value_counts(sort=False))
 ```
 ```
 Month:
-4     182183
-5     643942
-6     698231
-7     755511
-8     762220
-9     637312
-10    384976
-11    114546
+4     227516
+5     805580
+6     872410
+7     944606
+8     952142
+9     796795
+10    481450
+11    143152
 Name: Month, dtype: int64
 ```
 
@@ -278,37 +311,37 @@ print('Day:\n', train_copy.Day.value_counts(sort=False))
 ```
 ```
 Day:
-1     141975
-2     122977
-3     125215
-4     118463
-5     142648
-6     141348
-7     144381
-8     137525
-9     151748
-10    140580
-11    139363
-12    158823
-13    147832
-14    140710
-15    134940
-16    142692
-17    133639
-18    138495
-19    136057
-20    138889
-21    134152
-22    118169
-23    139634
-24    137261
-25    114937
-26    117510
-27    141612
-28    137538
-29    136726
-30    133541
-31     89541
+1     177842
+2     153570
+3     156329
+4     148174
+5     178529
+6     177106
+7     180238
+8     171886
+9     189986
+10    175735
+11    174114
+12    198274
+13    184622
+14    175525
+15    168935
+16    178420
+17    167394
+18    173067
+19    170249
+20    173739
+21    167480
+22    147810
+23    174350
+24    171623
+25    143558
+26    146963
+27    176586
+28    171761
+29    170795
+30    167036
+31    111955
 Name: Day, dtype: int64
 ```
 
@@ -318,30 +351,30 @@ print('Hour:\n', train_copy.Hour.value_counts(sort=False))
 ```
 ```
 Hour:
-0      77585
-1      49081
-2      32696
-3      26876
-4      14405
-5      14620
-6      42359
-7     132110
-8     318224
-9     232269
-10    149916
-11    167944
-12    209297
-13    219174
-14    213518
-15    240697
-16    329268
-17    437753
-18    367625
-19    272174
-20    207645
-21    172181
-22    139929
-23    111575
+0      97050
+1      61267
+2      40778
+3      33686
+4      17933
+5      18239
+6      52950
+7     165058
+8     397512
+9     290844
+10    187416
+11    209647
+12    261441
+13    274103
+14    266581
+15    300707
+16    412008
+17    547456
+18    459474
+19    340006
+20    259309
+21    215560
+22    175223
+23    139403
 Name: Hour, dtype: int64
 ```
 The overall Hours distribution shows two peaks: the first at around 8AM and the second at around 5PM. These peak times correspond exactly to when people go to work and when they get off work so there could be a correlation there. I'll confirm that by plotting the distribution of rides on weekdays vs. weekends.
@@ -353,17 +386,61 @@ The overall Hours distribution shows two peaks: the first at around 8AM and the 
 When comparing the weekday and weekend distribution, the graph clearly shows that the demand for BIXIs on weekdays correlates to the start and end of normal working hours. Whereas on weekends, the demand of BIXIs is high throughout the afternoon.
 
 <img src="/images/Member_percent.png" title="BIXI membership percentage" width="500" height="auto"/><br>
+```python
+print('is_member:\n', BIXI_data.is_member.value_counts())
+```
+```
+is_member:
+1    4340146
+0     883505
+Name: is_member, dtype: int64
+```
 
 <img src="/images/Rides_by_membership.png" title="Rides by membership" width="500" height="auto"/><br>
 
 The majority of riders are BIXI members. Based on the demand during weekdays, we can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
 
 <img src="/images/Temperature_distribution.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
+```python
+print('Temp (°C):\n', BIXI_data.Temperature.value_counts())
+```
+```
+Temp (°C):
+ 23.2    54492
+ 24.1    53673
+ 24.0    52818
+ 26.1    52734
+ 24.4    51002
+         ...  
+-5.9        34
+-2.4        22
+-5.8        22
+-9.3        12
+-9.4         8
+Name: Temperature, Length: 411, dtype: int64
+```
 
 This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.<br>
 
 <img src="/images/Stations_distribution.png" title="Distribution of BIXI stations" width="500" height="auto"/><br>
-
+```python
+print('start_station_code:\n', BIXI_data.start_station_code.value_counts())
+```
+```
+start_station_code:
+6100    53768
+6136    43562
+6184    43342
+6064    42344
+6221    37053
+        ...  
+5005      749
+5004      568
+7009      551
+5002      424
+5003      339
+Name: start_station_code, Length: 552, dtype: int64
+```
 This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc. 
 
 ```python
@@ -376,17 +453,22 @@ df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_co
 print(df_numerical.corr())
 ```
 ```
-                    is_member     Month  ...  longitude  Temperature
-is_member            1.000000  0.033615  ...  -0.066868    -0.095171
-Month                0.033615  1.000000  ...  -0.005889    -0.193358
-Day                  0.000508 -0.155403  ...  -0.002202    -0.033552
-Hour                -0.036288 -0.017236  ...   0.016287     0.141312
-start_station_code   0.024376 -0.000506  ...  -0.197350    -0.011260
-end_station_code     0.020379 -0.001493  ...  -0.086674    -0.002884
-duration_sec        -0.274457 -0.057599  ...   0.014850     0.094586
-latitude             0.063988  0.007384  ...  -0.127652    -0.029114
-longitude           -0.066868 -0.005889  ...   1.000000     0.018355
-Temperature         -0.095171 -0.193358  ...   0.018355     1.000000
+                    is_member     Month  ...  Wind_spd  Stn_pressure
+is_member            1.000000  0.033615  ...  0.010979     -0.025466
+Month                0.033615  1.000000  ... -0.120075      0.190320
+Day                  0.000508 -0.155403  ... -0.041295     -0.072005
+Hour                -0.036288 -0.017236  ... -0.181468     -0.081609
+start_station_code   0.024376 -0.000506  ...  0.006282      0.004830
+end_station_code     0.020379 -0.001493  ... -0.004548     -0.003818
+duration_sec        -0.274457 -0.057599  ... -0.008611      0.014094
+latitude             0.063988  0.007384  ...  0.002377      0.010113
+longitude           -0.066868 -0.005889  ... -0.003368     -0.004130
+Temperature         -0.095171 -0.193358  ... -0.100143     -0.146256
+Dew_point           -0.038295  0.113957  ... -0.183027     -0.308706
+Humidity             0.070019  0.391007  ... -0.126130     -0.282635
+Wind_dir            -0.027356 -0.067681  ... -0.218849     -0.116954
+Wind_spd             0.010979 -0.120075  ...  1.000000     -0.071383
+Stn_pressure        -0.025466  0.190320  ... -0.071383      1.000000
 ```
 ```python
 #correlation heatmap of dataset
@@ -410,7 +492,9 @@ def correlation_heatmap(df):
 correlation_heatmap(df_numerical)
 plt.show()
 ```
-<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="600" height="auto"/><br>
+<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
+
+
 
 
 ## 6) Feature Engineering
@@ -504,6 +588,17 @@ x_test = pd.get_dummies(test_data[features])
 
 ### 7.2 Model Building
 
+```python
+# Gaussian Naive Bayes
+gnb = GaussianNB()
+cv = cross_val_score(gnb, x_train, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.02744725 0.03144114 0.03100562 0.03154882 0.02617183]
+0.029522932373137033
+```
 
 ## 8) Model Tuning
 
