@@ -10,9 +10,7 @@
           <SummarizeFields>
             <SummarizeField field="start_station_code" action="Count" rename="Count" />
             <SummarizeField field="Hour" action="GroupBy" rename="Hour" />
-            <SummarizeField field="DayofWeek" action="GroupBy" rename="DayofWeek" />
             <SummarizeField field="start_station_code" action="GroupBy" rename="start_station_code" />
-            <SummarizeField field="Temp_Bin" action="GroupBy" rename="Temp_Bin" />
           </SummarizeFields>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -67,6 +65,12 @@
             <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Temp_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Rel Hum (%)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Hum_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -116,14 +120,10 @@
           <JoinInfo connection="Left">
             <Field field="start_station_code" />
             <Field field="Hour" />
-            <Field field="DayofWeek" />
-            <Field field="Temp_Bin" />
           </JoinInfo>
           <JoinInfo connection="Right">
             <Field field="start_station_code" />
             <Field field="Hour" />
-            <Field field="DayofWeek" />
-            <Field field="Temp_Bin" />
           </JoinInfo>
           <SelectConfiguration>
             <Configuration outputConnection="Join">
@@ -136,8 +136,8 @@
                 <SelectField field="Left_Hour" selected="True" input="Left_" />
                 <SelectField field="Right_Hour" selected="False" rename="Right_Hour" input="Right_" />
                 <SelectField field="Right_StartDate" selected="True" input="Right_" />
-                <SelectField field="Left_DayofWeek" selected="True" input="Left_" />
-                <SelectField field="Right_DayofWeek" selected="False" rename="Right_DayofWeek" input="Right_" />
+                <SelectField field="Left_DayofWeek" selected="False" input="Left_" />
+                <SelectField field="Right_DayofWeek" selected="True" input="Right_" />
                 <SelectField field="Right_DayofWeek_name" selected="True" input="Right_" />
                 <SelectField field="Left_start_station_code" selected="True" input="Left_" />
                 <SelectField field="Right_start_station_code" selected="False" rename="Right_start_station_code" input="Right_" />
@@ -149,9 +149,15 @@
                 <SelectField field="Right_Temp (°C)" selected="True" rename="Temperature" input="Right_" />
                 <SelectField field="Left_Temp (°C)" selected="False" input="Left_" />
                 <SelectField field="Right_Ratio" selected="True" input="Right_" />
-                <SelectField field="Right_Temp_Bin" selected="False" rename="Right_Temp_Bin" input="Right_" />
-                <SelectField field="Left_Temp_Bin" selected="True" input="Left_" />
+                <SelectField field="Right_Temp_Bin" selected="True" input="Right_" />
+                <SelectField field="Left_Temp_Bin" selected="False" input="Left_" />
                 <SelectField field="Left_Count" selected="True" rename="Demand" input="Left_" />
+                <SelectField field="Right_Dew Point Temp (°C)" selected="True" rename="Dew_point" input="Right_" />
+                <SelectField field="Right_Rel Hum (%)" selected="True" rename="Humidity" input="Right_" />
+                <SelectField field="Right_Hum_Bin" selected="True" input="Right_" />
+                <SelectField field="Right_Wind Dir (10s deg)" selected="True" rename="Wind_dir" input="Right_" />
+                <SelectField field="Right_Wind Spd (km/h)" selected="True" rename="Wind_spd" input="Right_" />
+                <SelectField field="Right_Stn Press (kPa)" selected="True" rename="Stn_pressure" input="Right_" />
                 <SelectField field="*Unknown" selected="True" />
               </SelectFields>
             </Configuration>

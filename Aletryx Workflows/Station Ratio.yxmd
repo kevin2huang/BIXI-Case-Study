@@ -8,7 +8,7 @@
       <Properties>
         <Configuration>
           <Passwords />
-          <File RecordLimit="" SearchSubDirs="False" FileFormat="0" OutputFileName="">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv</File>
+          <File RecordLimit="" SearchSubDirs="False" FileFormat="0" OutputFileName="">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv</File>
           <FormatSpecificOptions>
             <HeaderRow>True</HeaderRow>
             <IgnoreErrors>False</IgnoreErrors>
@@ -32,18 +32,23 @@
         </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
-            <Field name="Month" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="Day" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="Hour" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="start_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
-            <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Month" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Day" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Hour" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="start_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Rel Hum (%)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
+            <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -228,9 +233,15 @@
                 <SelectField field="Right_latitude" selected="True" input="Right_" />
                 <SelectField field="Right_longitude" selected="True" input="Right_" />
                 <SelectField field="Right_Temp (°C)" selected="True" input="Right_" />
-                <SelectField field="Left_Ratio" selected="True" input="Left_" />
                 <SelectField field="Left_net_losers" selected="False" input="Left_" />
                 <SelectField field="Left_Right_net_gainers" selected="False" input="Left_" />
+                <SelectField field="Right_Ratio" selected="False" rename="Right_Ratio" input="Right_" />
+                <SelectField field="Right_Dew Point Temp (°C)" selected="True" input="Right_" />
+                <SelectField field="Right_Rel Hum (%)" selected="True" input="Right_" />
+                <SelectField field="Right_Wind Dir (10s deg)" selected="True" input="Right_" />
+                <SelectField field="Right_Wind Spd (km/h)" selected="True" input="Right_" />
+                <SelectField field="Right_Stn Press (kPa)" selected="True" input="Right_" />
+                <SelectField field="Left_Ratio" selected="True" input="Left_" />
                 <SelectField field="*Unknown" selected="True" />
               </SelectFields>
             </Configuration>
@@ -255,8 +266,8 @@
           <SelectFields>
             <SelectField field="start_date" selected="True" type="Date" size="10" />
             <SelectField field="start_station_code" selected="True" type="Int32" size="4" />
-            <SelectField field="end_date" selected="True" type="Date" size="10" />
             <SelectField field="end_station_code" selected="True" type="Int32" size="4" />
+            <SelectField field="end_date" selected="True" type="Date" size="10" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -312,7 +323,7 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <File MaxRecords="" FileFormat="0">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\2018_BIXI_Stations_Temperature_Ratio.csv</File>
+          <File MaxRecords="" FileFormat="0">D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv</File>
           <Passwords />
           <FormatSpecificOptions>
             <LineEndStyle>CRLF</LineEndStyle>

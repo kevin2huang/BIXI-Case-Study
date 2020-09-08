@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="90" y="114" />
+        <Position x="90" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,9 +27,6 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
@@ -47,6 +44,11 @@
             <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
             <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
             <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Rel Hum (%)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -54,7 +56,7 @@
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="198" y="114" />
+        <Position x="198" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -62,6 +64,7 @@
           <CommaDecimal value="False" />
           <SelectFields>
             <SelectField field="Temp (°C)" selected="True" type="Double" size="8" />
+            <SelectField field="Rel Hum (%)" selected="True" type="Int16" size="2" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -75,15 +78,15 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings>
-        <Position x="306" y="114" />
+        <Position x="306" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Value name="List Box (297)">Temp (°C)=True</Value>
+          <Value name="List Box (297)">Temp (°C)=True,Rel Hum (%)=True</Value>
           <Value name="Radio Button (299)">False</Value>
           <Value name="Numeric Up Down (298)">8</Value>
           <Value name="Radio Button (301)">True</Value>
-          <Value name="Numeric Up Down (300)">8</Value>
+          <Value name="Numeric Up Down (300)">10</Value>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -110,7 +113,13 @@
             <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
             <Field name="Temp (°C)" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="Double" />
             <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Rel Hum (%)" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="Int16" />
+            <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
+            <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
             <Field name="Temp (°C)_Tile_Num" source="CrossTab:Header:FieldID:1:Sum:" type="Int64" />
+            <Field name="Rel Hum (%)_Tile_Num" source="CrossTab:Header:FieldID:2:Sum:" type="Int64" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -118,7 +127,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="498" y="114" />
+        <Position x="546" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -139,15 +148,12 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="402" y="114" />
+        <Position x="426" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -170,6 +176,12 @@
             <SelectField field="Temp (°C)" selected="True" />
             <SelectField field="Temp (°C)_Tile_Num" selected="True" rename="Temp_Bin" />
             <SelectField field="Ratio" selected="True" />
+            <SelectField field="Dew Point Temp (°C)" selected="True" />
+            <SelectField field="Rel Hum (%)" selected="True" />
+            <SelectField field="Rel Hum (%)_Tile_Num" selected="True" rename="Hum_Bin" />
+            <SelectField field="Wind Dir (10s deg)" selected="True" />
+            <SelectField field="Wind Spd (km/h)" selected="True" />
+            <SelectField field="Stn Press (kPa)" selected="True" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
