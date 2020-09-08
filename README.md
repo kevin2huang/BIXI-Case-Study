@@ -115,24 +115,26 @@ The data dictionary for the data sets are as follows:<br>
 | Stn Press (kPa) | The standard pressure in kPa |  |
 
 ### 3.4 Data set restructuring
-The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed from a single dataset. To do this, I'll use Alteryx.<br>
+The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed from a single dataset.<br>
 
-I started by merging the months of the 2018 data set and outputting the data into a new file called OD_2018_all_months.CSV.<br>
-<img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="400" height="auto"/><br>
+Merging the months of the 2018 data set and outputting the data into a new file.<br>
+<img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="350" height="auto"/><br>
+
 Then add the lattitude and longitude for each station (I left out the station name).<br>
 <img src="/images/JOIN_2018_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
+
 Next I joined the temperature to the BIXI and Stations combined data set into a new file called 2018_BIXI_Stations_Temperature.CSV. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season. I left out the wind speed, humidity, etc.<br>
 <img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
 
 ### 3.5 Greet the data
 **Import data**
 ```python
-# read train data set
+# read data set
 BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Stations_Temperature.csv", encoding= 'unicode_escape')
 ```
 **Preview data**
 ```python
-# get a peek at the top 5 rows of the training data
+# get a peek at the top 5 rows of the data set
 print(BIXI_data.head())
 ```
 ```
@@ -284,13 +286,11 @@ dtype: int64
 
 There aren't any null values for the data sets so there are no additional steps required at this point.<br>
 
-
-
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
 <img src="/images/Month_distribution.png" title="Distribution of BIXI rides by month" width="500" height="auto"/><br>
 ```python
-print('Month:\n', train_copy.Month.value_counts(sort=False))
+print('Month:\n', BIXI_data.Month.value_counts(sort=False))
 ```
 ```
 Month:
@@ -307,7 +307,7 @@ Name: Month, dtype: int64
 
 <img src="/images/Day_distribution.png" title="Distribution of BIXI rides by day" width="500" height="auto"/><br>
 ```python
-print('Day:\n', train_copy.Day.value_counts(sort=False))
+print('Day:\n', BIXI_data.Day.value_counts(sort=False))
 ```
 ```
 Day:
@@ -347,7 +347,7 @@ Name: Day, dtype: int64
 
 <img src="/images/Hour_distribution.png" title="Distribution of BIXI rides by hour" width="500" height="auto"/><br>
 ```python
-print('Hour:\n', train_copy.Hour.value_counts(sort=False))
+print('Hour:\n', BIXI_data.Hour.value_counts(sort=False))
 ```
 ```
 Hour:
@@ -443,59 +443,6 @@ Name: start_station_code, Length: 552, dtype: int64
 ```
 This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc. 
 
-```python
-# split into numerical values
-df_numerical = BIXI_data[['is_member', 'Month', 'Day', 'Hour', 'start_station_code', 
-                          'end_station_code', 'duration_sec', 'latitude', 'longitude', 
-                          'Temperature']]
-
-# plot a heatmap showing the correlation between all numerical columns
-print(df_numerical.corr())
-```
-```
-                    is_member     Month  ...  Wind_spd  Stn_pressure
-is_member            1.000000  0.033615  ...  0.010979     -0.025466
-Month                0.033615  1.000000  ... -0.120075      0.190320
-Day                  0.000508 -0.155403  ... -0.041295     -0.072005
-Hour                -0.036288 -0.017236  ... -0.181468     -0.081609
-start_station_code   0.024376 -0.000506  ...  0.006282      0.004830
-end_station_code     0.020379 -0.001493  ... -0.004548     -0.003818
-duration_sec        -0.274457 -0.057599  ... -0.008611      0.014094
-latitude             0.063988  0.007384  ...  0.002377      0.010113
-longitude           -0.066868 -0.005889  ... -0.003368     -0.004130
-Temperature         -0.095171 -0.193358  ... -0.100143     -0.146256
-Dew_point           -0.038295  0.113957  ... -0.183027     -0.308706
-Humidity             0.070019  0.391007  ... -0.126130     -0.282635
-Wind_dir            -0.027356 -0.067681  ... -0.218849     -0.116954
-Wind_spd             0.010979 -0.120075  ...  1.000000     -0.071383
-Stn_pressure        -0.025466  0.190320  ... -0.071383      1.000000
-```
-```python
-#correlation heatmap of dataset
-def correlation_heatmap(df):
-    _ , ax = plt.subplots(figsize =(14, 12))
-    colormap = sns.diverging_palette(220, 10, as_cmap = True)
-    
-    _ = sns.heatmap(
-        df.corr(), 
-        cmap = colormap,
-        square=True, 
-        cbar_kws={'shrink':.9 }, 
-        ax=ax,
-        annot=True, 
-        linewidths=0.1,vmax=1.0, linecolor='white',
-        annot_kws={'fontsize':12 }
-    )
-    
-    plt.title('Pearson Correlation of Features', y=1.05, size=15)
-
-correlation_heatmap(df_numerical)
-plt.show()
-```
-<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
-
-
-
 
 ## 6) Feature Engineering
 For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
@@ -546,6 +493,51 @@ Temperature Bin:
 8     199285
 Name: Temp_Bin, dtype: int64
 ```
+
+```python
+# split into numerical values
+df_numerical = new_BIXI_data[['Month', 'Day', 'Hour', 'is_Weekday', 'start_station_code', 
+                              'Temp_Bin', 'Hum_Bin', 'Demand']]
+
+# plot a heatmap showing the correlation between all numerical columns
+print(df_numerical.corr())
+```
+```
+                       Month       Day      Hour  ...  Temp_Bin   Hum_Bin    Demand
+Month               1.000000 -0.164471 -0.007026  ... -0.214167  0.345659 -0.041753
+Day                -0.164471  1.000000 -0.003996  ... -0.037382 -0.000179  0.002634
+Hour               -0.007026 -0.003996  1.000000  ...  0.107208 -0.167751  0.130389
+is_Weekday          0.012282  0.013649  0.034503  ...  0.005527  0.111213  0.038892
+start_station_code  0.000239  0.001189  0.006504  ...  0.011690 -0.010254 -0.103149
+Temp_Bin           -0.214167 -0.037382  0.107208  ...  1.000000 -0.220860  0.187901
+Hum_Bin             0.345659 -0.000179 -0.167751  ... -0.220860  1.000000 -0.155117
+Demand             -0.041753  0.002634  0.130389  ...  0.187901 -0.155117  1.000000
+```
+```python
+#correlation heatmap of dataset
+def correlation_heatmap(df):
+    _ , ax = plt.subplots(figsize =(14, 12))
+    colormap = sns.diverging_palette(220, 10, as_cmap = True)
+    
+    _ = sns.heatmap(
+        df.corr(), 
+        cmap = colormap,
+        square=True, 
+        cbar_kws={'shrink':.9 }, 
+        ax=ax,
+        annot=True, 
+        linewidths=0.1,vmax=1.0, linecolor='white',
+        annot_kws={'fontsize':10 }
+    )
+    
+    plt.title('Pearson Correlation of Features', y=1.05, size=15)
+
+correlation_heatmap(df_numerical)
+plt.show()
+```
+<img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
+
+- "Hour" and "Temperature" shows the highest correlation out of the rest of the columns.
 
 ### 6.2 Split into Training and Testing Data
 Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
