@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-        <Position x="66" y="114" />
+        <Position x="54" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,9 +27,6 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
@@ -44,6 +41,11 @@
             <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
             <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
             <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
+            <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
+            <Field name="Rel Hum (%)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
+            <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
+            <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
+            <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
             <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
@@ -52,7 +54,7 @@
     </Node>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="186" y="114" />
+        <Position x="174" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -83,19 +85,17 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-        <Position x="402" y="114" />
+        <Position x="390" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <FormulaFields>
-            <FormulaField expression="ToNumber(DateTimeFormat([StartDate],&quot;%w&quot;))" field="DayofWeek" size="2" type="Int16" />
-            <FormulaField expression="DateTimeFormat([StartDate],&quot;%A&quot;)" field="DayofWeek_name" size="1073741823" type="V_WString" />
+            <FormulaField expression="Switch(ToNumber(DateTimeFormat([StartDate],&quot;%w&quot;)), Null(), 0, 0, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 0)" field="is_Weekday" size="2" type="Int16" />
           </FormulaFields>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>DayofWeek = ToNumber(DateTimeFormat([StartDate],"%w"))
-DayofWeek_name = DateTime...</DefaultAnnotationText>
+          <DefaultAnnotationText>is_Weekday = Switch(ToNumber(DateTimeFormat([StartDate],"%w")), Null(), 0, 0, 1,...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -103,7 +103,7 @@ DayofWeek_name = DateTime...</DefaultAnnotationText>
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DateTime.DateTime">
-        <Position x="294" y="114" />
+        <Position x="282" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -124,7 +124,7 @@ Custom</DefaultAnnotationText>
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="618" y="114" />
+        <Position x="606" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -145,15 +145,12 @@ Custom</DefaultAnnotationText>
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="510" y="114" />
+        <Position x="498" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -164,9 +161,10 @@ Custom</DefaultAnnotationText>
             <SelectField field="Month" selected="True" />
             <SelectField field="Day" selected="True" />
             <SelectField field="Hour" selected="True" />
+            <SelectField field="is_Weekday" selected="True" />
             <SelectField field="StartDate" selected="True" />
-            <SelectField field="DayofWeek" selected="True" />
-            <SelectField field="DayofWeek_name" selected="True" />
+            <SelectField field="DayofWeek" selected="False" />
+            <SelectField field="DayofWeek_name" selected="False" />
             <SelectField field="start_date" selected="False" />
             <SelectField field="start_station_code" selected="True" />
             <SelectField field="end_station_code" selected="True" />
@@ -176,6 +174,11 @@ Custom</DefaultAnnotationText>
             <SelectField field="longitude" selected="True" />
             <SelectField field="Temp (°C)" selected="True" />
             <SelectField field="Ratio" selected="True" />
+            <SelectField field="Dew Point Temp (°C)" selected="True" />
+            <SelectField field="Rel Hum (%)" selected="True" />
+            <SelectField field="Wind Dir (10s deg)" selected="True" />
+            <SelectField field="Wind Spd (km/h)" selected="True" />
+            <SelectField field="Stn Press (kPa)" selected="True" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -228,7 +231,7 @@ Custom</DefaultAnnotationText>
     <LayoutType>Horizontal</LayoutType>
     <MetaInfo>
       <NameIsFileName value="True" />
-      <Name>Add Count and DayofWeek feature</Name>
+      <Name>Add DayofWeek feature</Name>
       <Description />
       <RootToolName />
       <ToolVersion />
