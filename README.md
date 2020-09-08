@@ -21,7 +21,7 @@
 >The mandate is to strengthen BIXI’s demand prediction capabilities. BIXI would like to estimate its bicycle demand by hour of the day based on their data from 2018.
 
 ## 2) Gather the Data
-The data sets were provided by the course. I uploaded them in the data sets folder.
+The data sets were provided. They are uploaded in the data sets folder.
 
 ## 3) Prepare Data for Consumption
 
@@ -252,11 +252,11 @@ The data is cleaned in 2 steps:
 1. Correcting outliers
 2. Completing null or missing data
 
-### 4.1 Correcting outliers
-Based on the summary above, there aren't any obvious outliers so I skipped this for now. Some outliers may be identified during the data exploration.
+### 4.1 
+From Tableau, I can see that only 10 out of 552 station codes are not within the 6000 to 7000 interval. So these 10 codes can be filtered out.<br>
 
 ### 4.2 Completing null or missing data
-The columns containing null values need to be identified for both the training and test data sets.<br>
+The columns containing null values need to be identified.<br>
 **Training data**
 ```python
 # find number of null values in each column
@@ -441,8 +441,43 @@ start_station_code:
 5003      339
 Name: start_station_code, Length: 552, dtype: int64
 ```
-This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc. 
+This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc.<br>
 
+<img src="/images/Duration_distribution.png" title="Distribution of duration of BIXI rides" width="500" height="auto"/><br>
+```python
+print('duration_sec:\n', BIXI_data.duration_sec.value_counts())
+```
+```
+duration_sec:
+342     5781
+284     5755
+289     5754
+319     5751
+338     5738
+        ... 
+6567       1
+6023       1
+6841       1
+6268       1
+6874       1
+Name: duration_sec, Length: 7035, dtype: int64
+```
+
+**Trend Line Summary**
+| Variable | Trend Line | R-Squared | p-value |
+| :-------: | :---------:| :-------:| :-------:|
+| Month | Polynomial | **0.968939** | 0.0017901 |
+| Day (overall) | Polynomial | 0.315074 | 0.0154662 |
+| Hour | Polynomial | **0.721809** | < 0.0001 |
+| Weekday | Polynomial | 0.574977 | 0.0005573 |
+| Weekend | Polynomial | **0.911839** | < 0.0001 |
+| Temp (°C) | Polynomial | **0.71087** | < 0.0001 |
+| Station Code | Polynomial | 0.166669 | < 0.0001 |
+| Duration | Polynomial | **0.883909** | < 0.0001 |
+| Rel Hum (%) | Polynomial | **0.857773** | < 0.0001 |
+| Stn Press (kPa) | Polynomial | 0.575157 | < 0.0001 |
+| Wind Dir (10s deg) | Polynomial | 0.14657 | 0.150621 |
+| Wind Spd (km/h) | Polynomial | **0.899023** | < 0.0001 |
 
 ## 6) Feature Engineering
 For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
@@ -451,11 +486,11 @@ For this data set, I created a "ratio" feature which is calculated by dividing t
 
 The Alteryx workflow will output the results into a file called 2018_BIXI_Stations_Temperature_Ratio.CSV.<br>
 
-The temperature shows a clear correlation with demand but there are too many unique values. The temperature can be grouped into bins. I chose to split the temperatures in 8 bins of equal intervals.<br>
+The temperature shows a clear correlation with demand but there are too many unique values. The temperature can be grouped into bins. I chose to split the temperatures in 10 bins of equal intervals.<br>
 
 <img src="/images/Create_temperature_bins.PNG" title="Bins for Temperature" width="500" height="auto"/><br>
 
-In addition, we saw that the demand of BIXIs is different on a weekday versus weekends so that feature should also be added.<br>
+In addition, we saw that there is a higher correlation of the BIXI demand by hour on weekends.<br>
 
 <img src="/images/Day_of_week_2018.PNG" title="Add Day of week feature" width="500" height="auto"/><br>
 
@@ -483,14 +518,16 @@ print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
 ```
 ```
 Temperature Bin:
-1      15447
-2      40533
-3     319009
-4     553224
-5     946859
-6    1763696
-7    1385598
-8     199285
+1       5845
+2      10900
+3      61658
+4     122320
+5     180826
+6     224657
+7     328382
+8     387859
+9     167277
+10     22288
 Name: Temp_Bin, dtype: int64
 ```
 
@@ -537,7 +574,8 @@ plt.show()
 ```
 <img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
 
-- "Hour" and "Temperature" shows the highest correlation out of the rest of the columns.
+- "Hour" and "Temperature" shows the highest correlation in regards to the "Demand".
+- The "Humidity" and "Month" seem to indicate some correlation.
 
 ### 6.2 Split into Training and Testing Data
 Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
@@ -553,14 +591,14 @@ test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Test_Dat
 # create a copy of train data to start exploring/modifying it
 train_copy = train_data.copy(deep = True)
 
-print("All Data Shape: {}".format(BIXI_data.shape))
+print("All Data Shape: {}".format(new_BIXI_data.shape))
 print("Train Data Shape: {}".format(train_data.shape))
 print("Test Data Shape: {}".format(test_data.shape))
 ```
 ```
-All Data Shape: (5223651, 12)
-Train Data Shape: (4178921, 16)
-Test Data Shape: (1044730, 16)
+All Data Shape: (1512012, 8)
+Train Data Shape: (1209610, 8)
+Test Data Shape: (302402, 8)
 ```
 
 ## 7) Evaluate Model Performance
