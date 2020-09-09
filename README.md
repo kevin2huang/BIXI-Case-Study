@@ -252,7 +252,7 @@ The data is cleaned in 2 steps:
 1. Correcting outliers
 2. Completing null or missing data
 
-### 4.1 
+### 4.1 Correcting outliers
 From Tableau, I can see that only 10 out of 552 station codes are not within the 6000 to 7000 interval. So these 10 codes can be filtered out.<br>
 
 ### 4.2 Completing null or missing data
@@ -377,7 +377,7 @@ Hour:
 23    139403
 Name: Hour, dtype: int64
 ```
-The overall Hours distribution shows two peaks: the first at around 8AM and the second at around 5PM. These peak times correspond exactly to when people go to work and when they get off work so there could be a correlation there. I'll confirm that by plotting the distribution of rides on weekdays vs. weekends.
+The overall Hours distribution shows two peaks: the first at around 8AM and the second at around 5PM. These peak times correspond exactly to when people go to work and when they get off work.
 
 <img src="/images/Hour_weekday_distribution.png" title="Distribution of BIXI rides by hour on weekdays" width="500" height="auto"/><br>
 
@@ -420,7 +420,7 @@ Temp (°C):
 Name: Temperature, Length: 411, dtype: int64
 ```
 
-This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable. The linear trend line returned a p-value of 0.0001 and a R-squared of 0.319993 which is a good indication that there is a correlation between the weather and BIXI demand.<br>
+This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable.<br>
 
 <img src="/images/Stations_distribution.png" title="Distribution of BIXI stations" width="500" height="auto"/><br>
 ```python
@@ -466,27 +466,25 @@ Name: duration_sec, Length: 7035, dtype: int64
 **Trend Line Summary**
 | Variable | Trend Line | R-Squared | p-value |
 | :-------: | :---------:| :-------:| :-------:|
-| Month | Polynomial | **0.968939** | 0.0017901 |
+| **Month** | Polynomial | **0.968939** | 0.0017901 |
 | Day (overall) | Polynomial | 0.315074 | 0.0154662 |
-| Hour | Polynomial | **0.721809** | < 0.0001 |
+| **Hour** | Polynomial | **0.721809** | < 0.0001 |
 | Weekday | Polynomial | 0.574977 | 0.0005573 |
-| Weekend | Polynomial | **0.911839** | < 0.0001 |
-| Temp (°C) | Polynomial | **0.71087** | < 0.0001 |
+| **Weekend** | Polynomial | **0.911839** | < 0.0001 |
+| **Temp (°C)** | Polynomial | **0.71087** | < 0.0001 |
 | Station Code | Polynomial | 0.166669 | < 0.0001 |
-| Duration | Polynomial | **0.883909** | < 0.0001 |
-| Rel Hum (%) | Polynomial | **0.857773** | < 0.0001 |
+| **Duration** | Polynomial | **0.883909** | < 0.0001 |
+| **Rel Hum (%)** | Polynomial | **0.857773** | < 0.0001 |
 | Stn Press (kPa) | Polynomial | 0.575157 | < 0.0001 |
 | Wind Dir (10s deg) | Polynomial | 0.14657 | 0.150621 |
-| Wind Spd (km/h) | Polynomial | **0.899023** | < 0.0001 |
+| **Wind Spd (km/h)** | Polynomial | **0.899023** | < 0.0001 |
 
 ## 6) Feature Engineering
 For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
 
 <img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
 
-The Alteryx workflow will output the results into a file called 2018_BIXI_Stations_Temperature_Ratio.CSV.<br>
-
-The temperature shows a clear correlation with demand but there are too many unique values. The temperature can be grouped into bins. I chose to split the temperatures in 10 bins of equal intervals.<br>
+The temperature and humidity can be grouped into bins. I chose to split them in 10 bins of equal intervals.<br>
 
 <img src="/images/Create_temperature_bins.PNG" title="Bins for Temperature" width="500" height="auto"/><br>
 
