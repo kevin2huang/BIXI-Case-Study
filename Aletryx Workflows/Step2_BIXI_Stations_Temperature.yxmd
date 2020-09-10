@@ -125,7 +125,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="690" y="138" />
+        <Position x="774" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -155,14 +155,21 @@
       </GuiSettings>
       <Properties>
         <Configuration>
-          <OrderChanged value="False" />
+          <OrderChanged value="True" />
           <CommaDecimal value="False" />
           <SelectFields>
             <SelectField field="Date/Time" selected="False" />
             <SelectField field="Year" selected="True" type="Int32" size="4" />
             <SelectField field="Month" selected="True" type="Int16" size="2" />
             <SelectField field="Day" selected="True" type="Int16" size="2" />
+            <SelectField field="Hour" selected="True" />
             <SelectField field="Time" selected="False" />
+            <SelectField field="Temp (°C)" selected="True" />
+            <SelectField field="Dew Point Temp (°C)" selected="True" />
+            <SelectField field="Rel Hum (%)" selected="True" />
+            <SelectField field="Wind Dir (10s deg)" selected="True" />
+            <SelectField field="Wind Spd (km/h)" selected="True" />
+            <SelectField field="Stn Press (kPa)" selected="True" />
             <SelectField field="Time_Out" selected="False" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
@@ -295,7 +302,7 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
             <SelectField field="Day" selected="True" />
             <SelectField field="Hour" selected="True" />
             <SelectField field="start_date" selected="True" />
-            <SelectField field="start_station_code" selected="True" />
+            <SelectField field="start_station_code" selected="True" type="Int32" size="4" />
             <SelectField field="end_date" selected="True" />
             <SelectField field="end_station_code" selected="True" />
             <SelectField field="duration_sec" selected="True" />
@@ -315,6 +322,23 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
     </Node>
+    <Node ToolID="15">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+        <Position x="654" y="138" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Expression>[start_station_code] &gt;= 6000 AND [start_station_code] &lt;= 7000</Expression>
+          <Mode>Custom</Mode>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>[start_station_code] &gt;= 6000 AND [start_station_code] &lt;= 7000</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
@@ -327,7 +351,7 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
     </Connection>
     <Connection>
       <Origin ToolID="6" Connection="Join" />
-      <Destination ToolID="7" Connection="Input" />
+      <Destination ToolID="15" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="9" Connection="Output" />
@@ -352,6 +376,10 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
     <Connection>
       <Origin ToolID="13" Connection="Output" />
       <Destination ToolID="14" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="15" Connection="True" />
+      <Destination ToolID="7" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

@@ -90,12 +90,12 @@
       <Properties>
         <Configuration>
           <FormulaFields>
-            <FormulaField expression="Switch(ToNumber(DateTimeFormat([StartDate],&quot;%w&quot;)), Null(), 0, 0, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 0)" field="is_Weekday" size="2" type="Int16" />
+            <FormulaField expression="Switch(ToNumber(DateTimeFormat([StartDate],&quot;%w&quot;)), Null(), 0, 1, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 1)" field="is_Weekend" size="2" type="Int16" />
           </FormulaFields>
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>is_Weekday = Switch(ToNumber(DateTimeFormat([StartDate],"%w")), Null(), 0, 0, 1,...</DefaultAnnotationText>
+          <DefaultAnnotationText>is_Weekend = Switch(ToNumber(DateTimeFormat([StartDate],"%w")), Null(), 0, 1, 1,...</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -124,7 +124,7 @@ Custom</DefaultAnnotationText>
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="606" y="54" />
+        <Position x="774" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -179,6 +179,7 @@ Custom</DefaultAnnotationText>
             <SelectField field="Wind Dir (10s deg)" selected="True" />
             <SelectField field="Wind Spd (km/h)" selected="True" />
             <SelectField field="Stn Press (kPa)" selected="True" />
+            <SelectField field="is_Weekend" selected="True" />
             <SelectField field="*Unknown" selected="True" />
           </SelectFields>
         </Configuration>
@@ -189,6 +190,90 @@ Custom</DefaultAnnotationText>
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+    </Node>
+    <Node ToolID="7">
+      <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
+        <Position x="582" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <SummarizeFields>
+            <SummarizeField field="Ratio" action="Avg" rename="Avg_Ratio" />
+            <SummarizeField field="Hour" action="GroupBy" rename="Hour" />
+            <SummarizeField field="start_station_code" action="GroupBy" rename="start_station_code" />
+            <SummarizeField field="Month" action="GroupBy" rename="Month" />
+            <SummarizeField field="is_Weekend" action="GroupBy" rename="is_Weekend" />
+          </SummarizeFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxSpatialPluginsEngine.dll" EngineDllEntryPoint="AlteryxSummarize" />
+    </Node>
+    <Node ToolID="9">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+        <Position x="666" y="54" />
+      </GuiSettings>
+      <Properties>
+        <Configuration joinByRecordPos="False">
+          <JoinInfo connection="Left">
+            <Field field="Hour" />
+            <Field field="start_station_code" />
+            <Field field="Month" />
+            <Field field="is_Weekend" />
+          </JoinInfo>
+          <JoinInfo connection="Right">
+            <Field field="Hour" />
+            <Field field="start_station_code" />
+            <Field field="Month" />
+            <Field field="is_Weekend" />
+          </JoinInfo>
+          <SelectConfiguration>
+            <Configuration outputConnection="Join">
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Right_is_member" selected="True" input="Right_" />
+                <SelectField field="Left_Month" selected="True" input="Left_" />
+                <SelectField field="Right_Day" selected="True" input="Right_" />
+                <SelectField field="Left_Hour" selected="True" input="Left_" />
+                <SelectField field="Left_is_Weekend" selected="True" input="Left_" />
+                <SelectField field="Left_is_Weekday" selected="False" input="Left_" />
+                <SelectField field="Left_start_station_code" selected="True" input="Left_" />
+                <SelectField field="Right_StartDate" selected="True" input="Right_" />
+                <SelectField field="Right_Month" selected="False" rename="Right_Month" input="Right_" />
+                <SelectField field="Right_Hour" selected="False" rename="Right_Hour" input="Right_" />
+                <SelectField field="Right_is_Weekday" selected="False" rename="Right_is_Weekday" input="Right_" />
+                <SelectField field="Right_start_station_code" selected="False" rename="Right_start_station_code" input="Right_" />
+                <SelectField field="Right_end_station_code" selected="True" input="Right_" />
+                <SelectField field="Right_end_date" selected="True" input="Right_" />
+                <SelectField field="Right_duration_sec" selected="True" input="Right_" />
+                <SelectField field="Right_latitude" selected="True" input="Right_" />
+                <SelectField field="Right_longitude" selected="True" input="Right_" />
+                <SelectField field="Right_Ratio" selected="True" input="Right_" />
+                <SelectField field="Left_Avg_Ratio" selected="True" input="Left_" />
+                <SelectField field="Right_Temp (°C)" selected="True" input="Right_" />
+                <SelectField field="Right_Dew Point Temp (°C)" selected="True" input="Right_" />
+                <SelectField field="Right_Rel Hum (%)" selected="True" input="Right_" />
+                <SelectField field="Right_Wind Dir (10s deg)" selected="True" input="Right_" />
+                <SelectField field="Right_Wind Spd (km/h)" selected="True" input="Right_" />
+                <SelectField field="Right_Stn Press (kPa)" selected="True" input="Right_" />
+                <SelectField field="Right_is_Weekend" selected="False" rename="Right_is_Weekend" input="Right_" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+          </SelectConfiguration>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
     </Node>
   </Nodes>
   <Connections>
@@ -210,6 +295,18 @@ Custom</DefaultAnnotationText>
     </Connection>
     <Connection>
       <Origin ToolID="6" Connection="Output" />
+      <Destination ToolID="7" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="Output" />
+      <Destination ToolID="9" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="7" Connection="Output" />
+      <Destination ToolID="9" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="9" Connection="Join" />
       <Destination ToolID="5" Connection="Input" />
     </Connection>
   </Connections>
