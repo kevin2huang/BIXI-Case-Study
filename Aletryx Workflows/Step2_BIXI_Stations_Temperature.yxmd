@@ -125,7 +125,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="774" y="138" />
+        <Position x="678" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -322,23 +322,6 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
     </Node>
-    <Node ToolID="15">
-      <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-        <Position x="654" y="138" />
-      </GuiSettings>
-      <Properties>
-        <Configuration>
-          <Expression>[start_station_code] &gt;= 6000 AND [start_station_code] &lt;= 7000</Expression>
-          <Mode>Custom</Mode>
-        </Configuration>
-        <Annotation DisplayMode="0">
-          <Name />
-          <DefaultAnnotationText>[start_station_code] &gt;= 6000 AND [start_station_code] &lt;= 7000</DefaultAnnotationText>
-          <Left value="False" />
-        </Annotation>
-      </Properties>
-      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
-    </Node>
   </Nodes>
   <Connections>
     <Connection>
@@ -351,7 +334,7 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
     </Connection>
     <Connection>
       <Origin ToolID="6" Connection="Join" />
-      <Destination ToolID="15" Connection="Input" />
+      <Destination ToolID="7" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="9" Connection="Output" />
@@ -377,10 +360,6 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
       <Origin ToolID="13" Connection="Output" />
       <Destination ToolID="14" Connection="Input" />
     </Connection>
-    <Connection>
-      <Origin ToolID="15" Connection="True" />
-      <Destination ToolID="7" Connection="Input" />
-    </Connection>
   </Connections>
   <Properties>
     <Memory default="True" />
@@ -400,7 +379,7 @@ Day = ToNumber(DateTimeFormat...</DefaultAnnotationText>
     <LayoutType>Horizontal</LayoutType>
     <MetaInfo>
       <NameIsFileName value="True" />
-      <Name>Join 2018 BIXI with Stations and Temperature</Name>
+      <Name>Step2_BIXI_Stations_Temperature</Name>
       <Description />
       <RootToolName />
       <ToolVersion />
