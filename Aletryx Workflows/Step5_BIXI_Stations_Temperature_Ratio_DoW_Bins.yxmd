@@ -99,9 +99,6 @@
           <DefaultAnnotationText />
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
         <MetaInfo connection="Output">
           <RecordInfo>
             <Field name="is_member" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW.csv" type="V_String" />
@@ -133,7 +130,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="690" y="54" />
+        <Position x="606" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -159,7 +156,7 @@
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-        <Position x="570" y="54" />
+        <Position x="486" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
