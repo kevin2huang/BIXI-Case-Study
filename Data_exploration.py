@@ -26,18 +26,6 @@ BIXI_data.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code',
 # print('Wind Spd (km/h):\n', BIXI_data.Wind_spd.value_counts())
 # print('Stn Press (kPa):\n', BIXI_data.Stn_pressure.value_counts())
 
-
-print('Month skewness:\n', BIXI_data.Month.skew())
-print('Day skewness:\n', BIXI_data.Day.skew())
-print('Hour skewness:\n', BIXI_data.Hour.skew())
-print('duration_sec skewness:\n', BIXI_data.duration_sec.skew())
-print('Temp (°C) skewness:\n', BIXI_data.Temperature.skew())
-print('Dew Point Temp (°C) skewness:\n', BIXI_data.Dew_point.skew())
-print('Rel Hum (%) skewness:\n', BIXI_data.Humidity.skew())
-print('Wind Dir (10s deg) skewness:\n', BIXI_data.Wind_dir.skew())
-print('Wind Spd (km/h) skewness:\n', BIXI_data.Wind_spd.skew())
-print('Stn Press (kPa) skewness:\n', BIXI_data.Stn_pressure.skew())
-
 # read data with new features created using Alteryx
 all_BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Demand.csv", encoding= 'unicode_escape')
 
