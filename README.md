@@ -28,38 +28,20 @@ The data sets were provided. They are uploaded in the data sets folder.
 ### 3.1 Import Libraries
 The following code is written in Python 3.7.7. Below is the list of libraries used.
 ```python
-import sys
 import numpy as np 
 import pandas as pd
 import matplotlib
-import seaborn as sns
-import scipy as sp
-import IPython
-from IPython import display
 import sklearn
-import random
-import time
+import itertools
+import copy
 ```
-My library versions at the time were:
-```
-Python version: 3.7.7
-pandas version: 1.0.5
-matplotlib version: 3.3.0
-seaborn version: 0.10.1
-NumPy version: 1.19.1
-SciPy version: 1.5.2
-IPython version: 7.17.0
-scikit-learn version: 0.23.2
-```
+
 ### 3.2 Load Data Modeling Libraries
 These are the most common machine learning and data visualization libraries.
 ```python
 #Visualization
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.pylab as pylab
 import seaborn as sns
-from pandas.plotting import scatter_matrix
 
 #Common Model Algorithms
 from sklearn.model_selection import cross_val_score
@@ -72,9 +54,8 @@ from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 #Common Model Helpers
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
-from sklearn.model_selection import train_test_split
-from sklearn import feature_selection
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, mean_absolute_error
 from sklearn import model_selection
 from sklearn import metrics
 ```
@@ -117,14 +98,14 @@ The data dictionary for the data sets are as follows:<br>
 ### 3.4 Data set restructuring
 The rides data set is separated by months and the geocoordinates of each station is in a separate CSV file. So I'll start by joining all of these files together so that all the variables can be accessed from a single dataset.<br>
 
-Merging the months of the 2018 data set and outputting the data into a new file.<br>
-<img src="/images/UNION_2018_BIXI_workflow.PNG" title="2018 BIXI rides" width="350" height="auto"/><br>
+This Alteryx workflow merges the all the invidual months of the 2018 data set.<br>
+<img src="/images/Step0_BIXI.PNG" title="2018 BIXI rides" width="350" height="auto"/><br>
 
-Then add the lattitude and longitude for each station (I left out the station name).<br>
-<img src="/images/JOIN_2018_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
+This Alteryx workflow adds the lattitude and longitude for each station.<br>
+<img src="/images/Step1_BIXI_Stations.PNG" title="2018 BIXI rides + geocoordinates" width="400" height="auto"/><br>
 
-Next I joined the temperature to the BIXI and Stations combined data set into a new file called 2018_BIXI_Stations_Temperature.CSV. So now I have the list of all the rides, locations and temperature for the 2018 BIXI season. I left out the wind speed, humidity, etc.<br>
-<img src="/images/JOIN_2018_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
+This Alteryx workflow adds the temperature, humidity, wind speed, etc. to the whole data set.<br>
+<img src="/images/Step2_BIXI_Stations_Temperature.PNG" title="2018 BIXI rides + geocoordinates + temp" width="600" height="auto"/><br>
 
 ### 3.5 Greet the data
 **Import data**
@@ -253,7 +234,7 @@ The data is cleaned in 2 steps:
 2. Completing null or missing data
 
 ### 4.1 Correcting outliers
-From Tableau, I can see that only 10 out of 552 station codes are not within the 6000 to 7000 interval. So these 10 codes can be filtered out.<br>
+There aren't any noticable outliers.<br>
 
 ### 4.2 Completing null or missing data
 The columns containing null values need to be identified.<br>
@@ -284,7 +265,36 @@ Stn Press (kPa)        0
 dtype: int64
 ```
 
-There aren't any null values for the data sets so there are no additional steps required at this point.<br>
+There aren't any null values so there are no additional steps required at this point.<br>
+
+### 4.3 Normalizing data
+Let's start by looking at the skewness of each column to determine which ones need to be normalized.
+```python
+# find which columns need to be normalized
+print('Month skewness: ', BIXI_data.Month.skew())
+print('Day skewness: ', BIXI_data.Day.skew())
+print('Hour skewness: ', BIXI_data.Hour.skew())
+print('duration_sec skewness: ', BIXI_data.duration_sec.skew())
+print('Temp (°C) skewness: ', BIXI_data.Temperature.skew())
+print('Dew Point skewness: ', BIXI_data.Dew_point.skew())
+print('Rel Hum (%) skewness: ', BIXI_data.Humidity.skew())
+print('Wind Dir (10s deg) skewness: ', BIXI_data.Wind_dir.skew())
+print('Wind Spd (km/h) skewness: ', BIXI_data.Wind_spd.skew())
+print('Stn Press (kPa) skewness: ', BIXI_data.Stn_pressure.skew())
+```
+```
+Month skewness:  0.09071688491147234
+Day skewness:  0.041431172508280587
+Hour skewness:  -0.5814962824651895
+duration_sec skewness:  2.2709516823926754
+Temp (°C) skewness:  -0.7679310890631336
+Dew Point skewness:  -0.5121214322438871
+Rel Hum (%) skewness:  0.11219275133036136
+Wind Dir (10s deg) skewness:  -0.3142990549906355
+Wind Spd (km/h) skewness:  0.669016674413527
+Stn Press (kPa) skewness:  -0.05076499486959195
+```
+We can see that `duration_sec` is the only field that is more than 1 which indicates it is highly positively skewed. This field will be normalized using the log function in Alteryx.
 
 ## 5) Data Exploration
 Let's look at the distribution for each column based on the number of rides.<br>
@@ -391,14 +401,14 @@ print('is_member:\n', BIXI_data.is_member.value_counts())
 ```
 ```
 is_member:
-1    4340146
-0     883505
+1    3866965
+0     792314
 Name: is_member, dtype: int64
 ```
 
 <img src="/images/Rides_by_membership.png" title="Rides by membership" width="500" height="auto"/><br>
 
-The majority of riders are BIXI members. Based on the demand during weekdays, we can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
+The majority of riders are BIXI members. Based on the demand during weekdays, I can conclude that one of the reasons riders opted for a membership is to use BIXI to commute to work.
 
 <img src="/images/Temperature_distribution.png" title="Distribution of BIXI rides by temperature" width="500" height="auto"/><br>
 ```python
@@ -420,7 +430,7 @@ Temp (°C):
 Name: Temperature, Length: 411, dtype: int64
 ```
 
-This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius. This makes sense because riding a bike when it's freezing cold or extremely hot is not comfortable.<br>
+This graph shows that most rides took place when the temperature was above 0 degrees and lower than 30 degrees Celcius.<br>
 
 <img src="/images/Stations_distribution.png" title="Distribution of BIXI stations" width="500" height="auto"/><br>
 ```python
@@ -441,9 +451,11 @@ start_station_code:
 5003      339
 Name: start_station_code, Length: 552, dtype: int64
 ```
-This graph shows the number of BIXI rides by station. Some stations are more frequent than others. Note that there isn't a BIXI station for each value of the x-axis. For example, there isn't a BIXI station with a code of 4500, 4501, etc.<br>
+This graph shows the number of BIXI rides by station. Some stations clearly received more rides than others. The station code is treated as a categorical data.<br>
 
 <img src="/images/Duration_distribution.png" title="Distribution of duration of BIXI rides" width="500" height="auto"/><br>
+The duration distribution is skewed so to fix this I will use a log transformation.
+
 ```python
 print('duration_sec:\n', BIXI_data.duration_sec.value_counts())
 ```
@@ -464,6 +476,7 @@ Name: duration_sec, Length: 7035, dtype: int64
 ```
 
 **Trend Line Summary**
+I plotted a polynomial line for each graph to calculate the R-squared and p-value to understand if there is a correlation with the number of rides.<br>
 | Variable | Trend Line | R-Squared | p-value |
 | :-------: | :---------:| :-------:| :-------:|
 | **Month** | Polynomial | **0.968939** | 0.0017901 |
@@ -472,81 +485,56 @@ Name: duration_sec, Length: 7035, dtype: int64
 | Weekday | Polynomial | 0.574977 | 0.0005573 |
 | **Weekend** | Polynomial | **0.911839** | < 0.0001 |
 | **Temp (°C)** | Polynomial | **0.71087** | < 0.0001 |
-| Station Code | Polynomial | 0.166669 | < 0.0001 |
 | **Duration** | Polynomial | **0.883909** | < 0.0001 |
 | **Rel Hum (%)** | Polynomial | **0.857773** | < 0.0001 |
 | Stn Press (kPa) | Polynomial | 0.575157 | < 0.0001 |
 | Wind Dir (10s deg) | Polynomial | 0.14657 | 0.150621 |
 | **Wind Spd (km/h)** | Polynomial | **0.899023** | < 0.0001 |
 
+Month, Hour, Weekend, Temperature, Duration, Humidity and Wind Speed show a high correlation with the number of rides.
+
 ## 6) Feature Engineering
 For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
 
-<img src="/images/Stations_Ratios_2018_BIXI.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
+<img src="/images/Step3_BIXI_Stations_Temperature_Ratio.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
+
+There is a higher correlation of the BIXI demand by hour on weekends so I created a is_Weekend column.<br>
+<img src="/images/Step4_BIXI_Stations_Temperature_Ratio_DoW.PNG" title="Add Day of week feature" width="500" height="auto"/><br>
 
 The temperature and humidity can be grouped into bins. I chose to split them in 10 bins of equal intervals.<br>
-
-<img src="/images/Create_temperature_bins.PNG" title="Bins for Temperature" width="500" height="auto"/><br>
-
-In addition, we saw that there is a higher correlation of the BIXI demand by hour on weekends.<br>
-
-<img src="/images/Day_of_week_2018.PNG" title="Add Day of week feature" width="500" height="auto"/><br>
+<img src="/images/Step5_BIXI_Stations_Temperature_Ratio_DoW_Bins.PNG" title="Bins for Temperature" width="500" height="auto"/><br>
 
 The objective is to predict the demand of BIXI stations but the target variable was not given as part of the initial dataset. The target variable needs to be defined as the amount of BIXI rides at a given station.<br>
-
-<img src="/images/create_BIXI_count.PNG" title="BIXI demand" width="500" height="auto"/><br>
-
-The final output file with all the features is called 2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.CSV.
+<img src="/images/Step6_BIXI_Stations_Temperature_Ratio_DoW_Bins_Demand.PNG" title="BIXI demand" width="500" height="auto"/><br>
 
 ### 6.1 Exploration of new features
 The traffic of each BIXI station can vary depending on location. To find out which stations are the most popular (more bikes in than out), I plotted the map of BIXI stations and color coded the ratios.<br>
-
 <img src="/images/Station_popularity.png" title="Distribution of BIXI rides by popularity" width="500" height="auto"/><br>
 
 Downtown Montreal is a hotspot for riders to dock their bikes and stations closer to the river also receive more riders. On the other hand, the stations located out of downtown have more bikes out than in.<br>
 
-<img src="/images/Temperature_bin_distribution.png" title="Distribution of BIXI rides by temperature bin" width="auto" height="600"/><br>
-
+Next, I wanted to see if there was a correlation between each column.
 ```python
 # read data with new features created using Alteryx
 new_BIXI_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/Output from Alteryx/2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Count.csv", encoding= 'unicode_escape')
 
-# explore amount of values per temperature bin
-print('Temperature Bin:\n', new_BIXI_data.Temp_Bin.value_counts(sort=False))
-```
-```
-Temperature Bin:
-1       5845
-2      10900
-3      61658
-4     122320
-5     180826
-6     224657
-7     328382
-8     387859
-9     167277
-10     22288
-Name: Temp_Bin, dtype: int64
-```
-
-```python
 # split into numerical values
-df_numerical = new_BIXI_data[['Month', 'Day', 'Hour', 'is_Weekday', 'start_station_code', 
-                              'Temp_Bin', 'Hum_Bin', 'Demand']]
+df_numerical = new_BIXI_data[['Month', 'Hour', 'is_Weekend', 'Temp_Bin', 'Hum_Bin', 'duration_sec', 'Wind Spd (km/h)', 'Demand']]
+
 
 # plot a heatmap showing the correlation between all numerical columns
 print(df_numerical.corr())
 ```
 ```
-                       Month       Day      Hour  ...  Temp_Bin   Hum_Bin    Demand
-Month               1.000000 -0.164471 -0.007026  ... -0.214167  0.345659 -0.041753
-Day                -0.164471  1.000000 -0.003996  ... -0.037382 -0.000179  0.002634
-Hour               -0.007026 -0.003996  1.000000  ...  0.107208 -0.167751  0.130389
-is_Weekday          0.012282  0.013649  0.034503  ...  0.005527  0.111213  0.038892
-start_station_code  0.000239  0.001189  0.006504  ...  0.011690 -0.010254 -0.103149
-Temp_Bin           -0.214167 -0.037382  0.107208  ...  1.000000 -0.220860  0.187901
-Hum_Bin             0.345659 -0.000179 -0.167751  ... -0.220860  1.000000 -0.155117
-Demand             -0.041753  0.002634  0.130389  ...  0.187901 -0.155117  1.000000
+                    Month      Hour  ...  Wind Spd (km/h)    Demand
+Month            1.000000 -0.017582  ...        -0.120369 -0.001129
+Hour            -0.017582  1.000000  ...        -0.180428  0.010145
+is_Weekend      -0.028613 -0.023232  ...         0.023003  0.004940
+Temp_Bin        -0.185679  0.138919  ...        -0.097625  0.012977
+Hum_Bin          0.387021 -0.177561  ...        -0.126990 -0.007689
+duration_sec    -0.057514  0.025726  ...        -0.008125 -0.005307
+Wind Spd (km/h) -0.120369 -0.180428  ...         1.000000 -0.004260
+Demand          -0.001129  0.010145  ...        -0.004260  1.000000
 ```
 ```python
 #correlation heatmap of dataset
@@ -572,13 +560,13 @@ plt.show()
 ```
 <img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
 
-- "Hour" and "Temperature" shows the highest correlation in regards to the "Demand".
-- The "Humidity" and "Month" seem to indicate some correlation.
+- "Hour" and "Temperature" shows the highest correlation in regards to the "Demand" but it is still relatively low.
+- "Humidity" and "Month" also indicate a correlation.
 
 ### 6.2 Split into Training and Testing Data
 Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
 
-<img src="/images/SPLIT_TRAIN_TEST.PNG" title="Split Train Test" width="400" height="auto"/><br>
+<img src="/images/Step7_Split_Train_Test.PNG" title="Split Train Test" width="400" height="auto"/><br>
 ```python
 # read train data
 train_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Train_Data.csv", encoding= 'unicode_escape')
@@ -603,29 +591,139 @@ Test Data Shape: (302402, 8)
 
 ### 7.1 Data Preprocessing for Model
 ```python
-# define target variable y of the training data set
-y_train = train_copy["Demand"]
+scale = StandardScaler()
 
 # define features to be used for the predictive models
-features = ['Month', 'Hour', 'DayofWeek', 'start_station_code', 'Temp_Bin']
+features = [ 'Month', 'Day', 'Hour', 'is_Weekend', 'Duration_Bin', 'Temp_Bin',
+             'Hum_Bin', 'Wind_spd' ]
 
 # define x-axis variables for training and testing data sets
-x_train = pd.get_dummies(train_copy[features])
-x_test = pd.get_dummies(test_data[features])
+train_dummies = pd.get_dummies(train_copy[features])
+x_train_scaled = scale.fit_transform(train_dummies)
+
+test_dummies = pd.get_dummies(test_data[features])
+x_test_scaled = scale.fit_transform(test_dummies)
+
+# define target variable y of the training data set
+y_train = train_copy.Demand
 ```
 
 ### 7.2 Model Building
+Here are accuracy scores for each predictive model:<br>
 
+**Gaussian Naive Bayes**
 ```python
 # Gaussian Naive Bayes
 gnb = GaussianNB()
-cv = cross_val_score(gnb, x_train, y_train, cv=5)
+cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10)
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.02744725 0.03144114 0.03100562 0.03154882 0.02617183]
-0.029522932373137033
+[0.03500583 0.0344224  0.03733956 0.04434072 0.02800467 0.02625438
+ 0.04725788 0.0344224  0.02685347 0.02568593]
+0.033958724586029956
+```
+Linear Regression
+```python
+lin_r = LinearRegression()
+cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.16431195 0.08035413 0.13334884 0.09049782 0.03919703]
+0.10154195402476371
+```
+Logistic Regression
+```python
+# Logistic Regression
+lr = LogisticRegression(max_iter = 2000)
+cv = cross_val_score(lr, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.05805134 0.07526254 0.05455076 0.06302889 0.04610446]
+0.05939959937880903
+```
+Decision Tree
+```python
+# Decision Tree
+dt = tree.DecisionTreeClassifier(random_state = 1)
+cv = cross_val_score(dt, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.10268378 0.13039673 0.10997666 0.13802159 0.07732711]
+0.11168117553684294
+```
+k-Neighbors
+```python
+# k-Neighbors
+knn = KNeighborsClassifier()
+cv = cross_val_score(knn, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.06621937 0.06038506 0.03967328 0.03472425 0.04814707]
+0.04982980579440023
+```
+Random Forest
+```python
+# Random Forest
+rf = RandomForestClassifier(random_state = 1)
+cv = cross_val_score(rf, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.09889148 0.12514586 0.09947491 0.09512693 0.0691567 ]
+0.09755917640781779
+```
+SVC
+```python
+svc = SVC(probability = True)
+cv = cross_val_score(svc, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.06476079 0.06388565 0.05571762 0.05806828 0.04552086]
+0.0575906411403165
+```
+XGBoost
+```python
+# XGB
+xgb = XGBClassifier(random_state =1)
+cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
+```
+```
+[0.09334889 0.11872812 0.10851809 0.09162533 0.0735337 ]
+0.09715082608116819
+```
+
+```python
+estimator = [('lr', lr),
+	         ('knn', knn),
+	         ('rf', rf),
+	         ('gnb', gnb),
+	         ('svc', svc),
+	         ('xgb', xgb)]
+
+vot_soft = VotingClassifier(estimators = estimator, voting = 'soft') 
+cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='mean_squared_error')
+print(cv)
+print(cv.mean())
+
+vot_soft.fit(x_train_scaled, y_train)
+y_predict = vot_soft.predict(x_test_scaled)
+
+print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
 ```
 
 ## 8) Model Tuning
