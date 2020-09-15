@@ -1,17 +1,15 @@
-import sys
 import numpy as np 
 import pandas as pd
-import scipy as sp
 import sklearn
-import random
-import time
 import itertools
 import copy
+import csv
+import openpyxl
 
 #Common Model Algorithms
 from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn import tree
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -20,9 +18,7 @@ from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 #Common Model Helpers
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn import feature_selection
+from sklearn.preprocessing import StandardScaler
 from sklearn import model_selection
 from sklearn import metrics
 from sklearn.metrics import accuracy_score, mean_absolute_error
@@ -41,6 +37,8 @@ train_copy = train_data.copy(deep = True)
 # print("Train Data Shape: {}".format(train_data.shape))
 # print("Test Data Shape: {}".format(test_data.shape))
 
+
+
 # helper method to use every combination of features and run it through the model
 def combinations(target, data, model):
 	for i in range(len(data)):
@@ -49,116 +47,121 @@ def combinations(target, data, model):
 		new_target.append(data[i])
 		new_data = data[i+1:]
 		cv = cross_val_score(model, pd.get_dummies(train_copy[new_target]), y_train, cv=10)
+		
+		Feature.append(new_target)
+		Mean.append(cv.mean())
+
 		print(new_target)
-		print(cv)
-		print(cv.mean())
+		print("Mean: {}".format(cv.mean()))
 		print("-"*10)
 		
-		combinations(new_target, new_data)
+		combinations(new_target, new_data, model)
 
 scale = StandardScaler()
 
+# Feature = []
+# Mean = []
+# print("Gaussian Naive Bayes")
+# combinations([], features, gnb)
+# Combination = [Feature, Mean]
+# df = pd.DataFrame(Combination)
+# df.to_excel('GNB_comb.xlsx', header=False, index=False)
+
 # define features to be used for the predictive models
-features = ['start_station_code', 'Month', 'Day', 'Hour', 'is_Weekend',
-       'duration_sec', 'Temp_Bin', 'Hum_Bin', 'Stn_pressure', 'Wind_dir',
-       'Wind_spd', 'Avg_Ratio', 'is_member']
+# print(train_copy.columns)
+features = [ 'Month', 'Day', 'Hour', 'duration_log', 'Wind_spd',
+             'Hum_Bin', 'Stn_pressure', 'Temp_Bin', 'Wind_dir' ]
+
 
 # define x-axis variables for training and testing data sets
 x_train = pd.get_dummies(train_copy[features])
-# x_train_scaled = scale.fit_transform(train_dummies)
+x_train_scaled = scale.fit_transform(x_train)
 
 x_test = pd.get_dummies(test_data[features])
-# x_test_scaled = scale.fit_transform(test_dummies)
+x_test_scaled = scale.fit_transform(x_test)
 
 # define target variable y
 y_train = train_copy.Demand
 y_test = test_data.Demand
 
 # Gaussian Naive Bayes
+print("Gaussian Naive Bayes")
 gnb = GaussianNB()
-# cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10)
-# print(cv)
-# print(cv.mean())
+cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10, scoring='accuracy')
+print(cv)
+print(cv.mean())
 
-# [0.07496252 0.06921539 0.06146927 0.06421789 0.05647176 0.06471764
-#  0.05972014 0.06671664 0.07048238 0.06923269]
-# 0.06572063256050056
+# Linear Regression
+print("Linear Regression")
+lin_r = LinearRegression()
+cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # Logistic Regression
-lr = LogisticRegression(max_iter = 20000)
-# cv = cross_val_score(lr, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
-# [0.03798101 0.05509745 0.0535982  0.0496064  0.0378608 ]
-# 0.04682877229384808
+print("Logistic Regression")
+lr = LogisticRegression(max_iter = 2000)
+cv = cross_val_score(lr, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # Decision Tree
+print("Decision Tree")
 dt = tree.DecisionTreeClassifier(random_state = 1)
-# cv = cross_val_score(dt, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
-# [0.13843078 0.19677661 0.19965017 0.19080345 0.14457079]
-# 0.17404636117527889
+cv = cross_val_score(dt, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # k-Neighbors
+print("k-Neighbors")
 knn = KNeighborsClassifier()
-# cv = cross_val_score(knn, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
-# [0.07396302 0.08783108 0.0892054  0.08684243 0.06310134]
-# 0.08018865426714358
+cv = cross_val_score(knn, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # Random Forest
+print("Random Forest")
 rf = RandomForestClassifier(random_state = 1)
-# cv = cross_val_score(rf, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
-# [0.11831584 0.18990505 0.18815592 0.17580907 0.13419968]
-# 0.1612771116628366
+cv = cross_val_score(rf, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # SVC
+print("SVC")
 svc = SVC(probability = True)
-# cv = cross_val_score(svc, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
-# [0.06921539 0.08795602 0.0655922  0.06135199 0.05772835]
-# 0.06836879261231561
+cv = cross_val_score(svc, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # XGB
+print("XGB")
 xgb = XGBClassifier(random_state = 1)
-# cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5)
-# print(cv)
-# print(cv.mean())
-
+cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5)
+print(cv)
+print(cv.mean())
 
 # group of models
 estimator = [('lr', lr),
-	         ('knn',knn),
-	         ('rf',rf),
-	         ('gnb',gnb),
-	         ('svc',svc),
-	         ('xgb',xgb)]
-
-# Voting Classifier with hard voting
-# vot_hard = VotingClassifier(estimators = estimator, voting ='hard')
-# vot_hard.fit(x_train_scaled, y_train)
-# y_predict = vot_hard.predict(x_test_scaled)
-
-# using accuracy_score metric to predict accuracy 
-# score = accuracy_score(y_test, y_predict) 
-# print("Hard Voting Score % d" % score) 
+	         ('knn', knn),
+	         ('rf', rf),
+	         ('gnb', gnb),
+	         ('svc', svc),
+	         ('xgb', xgb)]
 
 # Voting Classifier with soft voting
+# print("Voting Classifier")
 vot_soft = VotingClassifier(estimators = estimator, voting = 'soft') 
-vot_soft.fit(x_train, y_train)
-y_predict = vot_soft.predict(x_test)
+cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='accuracy')
+print(cv)
+print(cv.mean())
 
-print(mean_absolute_error(y_test, y_predict))
+vot_soft.fit(x_train_scaled, y_train)
+y_predict = vot_soft.predict(x_test_scaled)
+
+print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
+
+# 0.09071144763475524
+# [Finished in 465.8s]
 
 # using accuracy_score metric to predict accuracy
 # score = accuracy_score(y_test, y_predict) 
@@ -166,15 +169,15 @@ print(mean_absolute_error(y_test, y_predict))
 
 
 # submission = pd.DataFrame({ 'start_station_code' : test_data.start_station_code, 
-#                				'Month' : test_data.Month, 
-#                				'Hour' : test_data.Hour, 
-#                				'is_Weekend' : test_data.is_Weekend, 
-#                				'Temp_Bin' : test_data.Temp_Bin, 
-#                				'Hum_Bin' : test_data.Hum_Bin, 
-#                				'duration_sec' : test_data.duration_sec, 
-#                				'Wind_spd' : test_data.Wind_spd,
-#                				'Demand' : test_data.Demand,
-#                				'Prediction' : y_predict })
+#                			  'Month' : test_data.Month, 
+#                			  'Hour' : test_data.Hour, 
+#                			  'is_Weekend' : test_data.is_Weekend, 
+#                			  'Temp_Bin' : test_data.Temp_Bin, 
+#                			  'Hum_Bin' : test_data.Hum_Bin, 
+#                			  'duration_sec' : test_data.duration_sec, 
+#                			  'Wind_spd' : test_data.Wind_spd,
+#                			  'Demand' : test_data.Demand,
+#                			  'Prediction' : y_predict })
 
 # submission.to_csv('predictions.csv', index=False)
 
