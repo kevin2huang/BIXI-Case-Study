@@ -55,24 +55,22 @@
             <Field name="Month" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Day" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Hour" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
-            <Field name="StartDate" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="is_Weekend" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="start_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="StartDate" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="end_station_code" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="end_date" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
-            <Field name="duration_sec" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
+            <Field name="Duration_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="latitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="longitude" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Avg_Ratio" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
-            <Field name="Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Temp_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Dew Point Temp (°C)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
-            <Field name="Rel Hum (%)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Hum_Bin" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Wind Dir (10s deg)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Wind Spd (km/h)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
             <Field name="Stn Press (kPa)" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
-            <Field name="is_Weekend" size="254" source="File: D:\Github\BIXI-Case-Study\Data sets\Bixi Montreal Rentals 2018\Output from Alteryx\2018_BIXI_Stations_Temperature_Ratio_DoW_Bins.csv" type="V_String" />
           </RecordInfo>
         </MetaInfo>
       </Properties>
@@ -91,19 +89,19 @@
             <SelectField field="Month" selected="True" type="Int16" size="2" />
             <SelectField field="Day" selected="True" type="Int16" size="2" />
             <SelectField field="Hour" selected="True" type="Int16" size="2" />
-            <SelectField field="StartDate" selected="True" type="Date" size="10" />
+            <SelectField field="is_Weekend" selected="True" type="Int16" size="2" />
             <SelectField field="start_station_code" selected="True" type="Int64" size="8" />
+            <SelectField field="StartDate" selected="True" type="Date" size="10" />
             <SelectField field="end_station_code" selected="True" type="Int64" size="8" />
             <SelectField field="end_date" selected="True" type="Date" size="10" />
-            <SelectField field="duration_sec" selected="True" type="Int64" size="8" />
             <SelectField field="latitude" selected="True" type="Double" size="8" />
             <SelectField field="longitude" selected="True" type="Double" size="8" />
             <SelectField field="Ratio" selected="True" type="Double" size="8" />
-            <SelectField field="Temp (°C)" selected="True" type="Double" size="8" />
             <SelectField field="Temp_Bin" selected="True" type="Int16" size="2" />
             <SelectField field="Wind Spd (km/h)" selected="True" type="Int16" size="2" />
-            <SelectField field="is_Weekend" selected="True" type="Int16" size="2" />
-            <SelectField field="is_Weekday" selected="True" type="Int16" size="2" />
+            <SelectField field="duration_sec" selected="False" type="Int64" size="8" />
+            <SelectField field="Temp (°C)" selected="False" type="Double" size="8" />
+            <SelectField field="is_Weekday" selected="False" type="Int16" size="2" />
             <SelectField field="DayofWeek" selected="False" type="Int16" size="2" />
             <SelectField field="DayofWeek_name" selected="False" />
             <SelectField field="*Unknown" selected="True" />
@@ -145,14 +143,15 @@
                 <SelectField field="Left_Day" selected="True" input="Left_" />
                 <SelectField field="Left_Hour" selected="True" input="Left_" />
                 <SelectField field="Right_is_Weekend" selected="True" input="Right_" />
-                <SelectField field="Right_duration_sec" selected="True" input="Right_" />
+                <SelectField field="Right_duration_sec" selected="False" input="Right_" />
+                <SelectField field="Right_Duration_Bin" selected="True" input="Right_" />
                 <SelectField field="Right_Temp_Bin" selected="True" input="Right_" />
                 <SelectField field="Right_Hum_Bin" selected="True" input="Right_" />
                 <SelectField field="Right_Stn Press (kPa)" selected="True" rename="Stn_pressure" input="Right_" />
                 <SelectField field="Right_Wind Dir (10s deg)" selected="True" rename="Wind_dir" input="Right_" />
                 <SelectField field="Right_Wind Spd (km/h)" selected="True" rename="Wind_spd" input="Right_" />
                 <SelectField field="Right_Avg_Ratio" selected="True" input="Right_" />
-                <SelectField field="Right_is_member" selected="True" input="Right_" />
+                <SelectField field="Right_is_member" selected="False" input="Right_" />
                 <SelectField field="Left_Count" selected="True" rename="Demand" input="Left_" />
                 <SelectField field="Left_is_Weekend" selected="False" input="Left_" />
                 <SelectField field="Left_is_Weekday" selected="False" input="Left_" />
@@ -193,7 +192,7 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="582" y="54" />
+        <Position x="582" y="42" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -214,9 +213,6 @@
           <DefaultAnnotationText>2018_BIXI_Stations_Temperature_Ratio_DoW_Bins_Demand.csv</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
-        <Dependencies>
-          <Implicit />
-        </Dependencies>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
     </Node>
@@ -232,14 +228,13 @@
             <Field field="Day" />
             <Field field="Hour" />
             <Field field="is_Weekend" />
-            <Field field="duration_sec" />
+            <Field field="Duration_Bin" />
             <Field field="Temp_Bin" />
             <Field field="Hum_Bin" />
             <Field field="Stn_pressure" />
             <Field field="Wind_dir" />
             <Field field="Wind_spd" />
             <Field field="Avg_Ratio" />
-            <Field field="is_member" />
             <Field field="Demand" />
           </UniqueFields>
         </Configuration>
@@ -268,7 +263,7 @@
               <PeriodType>
               </PeriodType>
               <PeriodCount>0</PeriodCount>
-              <Operand>6100</Operand>
+              <Operand>6136</Operand>
               <StartDate>2020-09-09 14:10:02</StartDate>
               <EndDate>2020-09-09 14:10:02</EndDate>
             </Operands>
@@ -276,7 +271,7 @@
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
-          <DefaultAnnotationText>[start_station_code] = 6100</DefaultAnnotationText>
+          <DefaultAnnotationText>[start_station_code] = 6136</DefaultAnnotationText>
           <Left value="False" />
         </Annotation>
       </Properties>
@@ -284,7 +279,7 @@
     </Node>
     <Node ToolID="9">
       <GuiSettings>
-        <Position x="690" y="162" />
+        <Position x="750" y="162" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -302,7 +297,7 @@
     </Node>
     <Node ToolID="10">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="810" y="114" />
+        <Position x="894" y="102" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -328,7 +323,7 @@
     </Node>
     <Node ToolID="11">
       <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-        <Position x="810" y="210" />
+        <Position x="894" y="222" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -351,6 +346,27 @@
         </Annotation>
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+    </Node>
+    <Node ToolID="12">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+        <Position x="666" y="162" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <OrderChanged value="False" />
+          <CommaDecimal value="False" />
+          <SelectFields>
+            <SelectField field="start_station_code" selected="False" />
+            <SelectField field="*Unknown" selected="True" />
+          </SelectFields>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
     </Node>
   </Nodes>
   <Connections>
@@ -384,7 +400,7 @@
     </Connection>
     <Connection>
       <Origin ToolID="8" Connection="True" />
-      <Destination ToolID="9" Connection="Input" />
+      <Destination ToolID="12" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="9" Connection="Estimation" />
@@ -393,6 +409,10 @@
     <Connection>
       <Origin ToolID="9" Connection="Validation" />
       <Destination ToolID="11" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="12" Connection="Output" />
+      <Destination ToolID="9" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>
