@@ -21,7 +21,7 @@ from xgboost import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn import model_selection
 from sklearn import metrics
-from sklearn.metrics import accuracy_score, mean_absolute_error
+from sklearn.metrics import accuracy_score, mean_absolute_error, r2_score
 
 
 # read train data
@@ -87,56 +87,56 @@ y_test = test_data.Demand
 # Gaussian Naive Bayes
 print("Gaussian Naive Bayes")
 gnb = GaussianNB()
-cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10, scoring='accuracy')
+cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # Linear Regression
 print("Linear Regression")
 lin_r = LinearRegression()
-cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # Logistic Regression
 print("Logistic Regression")
 lr = LogisticRegression(max_iter = 2000)
-cv = cross_val_score(lr, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(lr, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # Decision Tree
 print("Decision Tree")
 dt = tree.DecisionTreeClassifier(random_state = 1)
-cv = cross_val_score(dt, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(dt, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # k-Neighbors
 print("k-Neighbors")
 knn = KNeighborsClassifier()
-cv = cross_val_score(knn, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(knn, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # Random Forest
 print("Random Forest")
 rf = RandomForestClassifier(random_state = 1)
-cv = cross_val_score(rf, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(rf, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # SVC
 print("SVC")
 svc = SVC(probability = True)
-cv = cross_val_score(svc, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(svc, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
 # XGB
 print("XGB")
 xgb = XGBClassifier(random_state = 1)
-cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
@@ -149,9 +149,9 @@ estimator = [('lr', lr),
 	         ('xgb', xgb)]
 
 # Voting Classifier with soft voting
-# print("Voting Classifier")
+print("Voting Classifier")
 vot_soft = VotingClassifier(estimators = estimator, voting = 'soft') 
-cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='accuracy')
+cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
@@ -159,25 +159,19 @@ vot_soft.fit(x_train_scaled, y_train)
 y_predict = vot_soft.predict(x_test_scaled)
 
 print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
+print("R2: {}".format(r2_score(y_test, y_predict)))
 
-# 0.09071144763475524
-# [Finished in 465.8s]
-
-# using accuracy_score metric to predict accuracy
-# score = accuracy_score(y_test, y_predict) 
-# print("Soft Voting Score % d" % score)
-
-
-# submission = pd.DataFrame({ 'start_station_code' : test_data.start_station_code, 
-#                			  'Month' : test_data.Month, 
-#                			  'Hour' : test_data.Hour, 
-#                			  'is_Weekend' : test_data.is_Weekend, 
-#                			  'Temp_Bin' : test_data.Temp_Bin, 
-#                			  'Hum_Bin' : test_data.Hum_Bin, 
-#                			  'duration_sec' : test_data.duration_sec, 
-#                			  'Wind_spd' : test_data.Wind_spd,
-#                			  'Demand' : test_data.Demand,
-#                			  'Prediction' : y_predict })
+# submission = pd.DataFrame({ 'Month' : test_data.Month, 
+# 						    'Day' : test_data.Day, 
+#                			    'Hour' : test_data.Hour, 
+#                			    'Temp_Bin' : test_data.Temp_Bin, 
+#                			    'Hum_Bin' : test_data.Hum_Bin, 
+#                			    'duration_log' : test_data.duration_log, 
+#                			    'Wind_spd' : test_data.Wind_spd,
+#                			    'Stn_pressure' : test_data.Stn_pressure,
+#                			    'Wind_dir' : test_data.Wind_dir,
+#                			    'Demand' : test_data.Demand,
+#                			    'Prediction' : y_predict })
 
 # submission.to_csv('predictions.csv', index=False)
 
