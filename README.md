@@ -615,96 +615,97 @@ Here are accuracy scores for each predictive model:<br>
 ```python
 # Gaussian Naive Bayes
 gnb = GaussianNB()
-cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10)
+cv = cross_val_score(gnb, x_train_scaled, y_train, cv=10, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.03500583 0.0344224  0.03733956 0.04434072 0.02800467 0.02625438
- 0.04725788 0.0344224  0.02685347 0.02568593]
-0.033958724586029956
+[0.20127882 0.43501821 0.36313725 0.47107837 0.39641311 0.46642278
+ 0.49527622 0.48493423 0.51131103 0.08518181]
+0.39100518259239825
 ```
 Linear Regression
 ```python
 lin_r = LinearRegression()
-cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(lin_r, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.16431195 0.08035413 0.13334884 0.09049782 0.03919703]
-0.10154195402476371
+Linear Regression
+[0.37309244 0.08062153 0.22207059 0.12977931 0.14966929]
+0.19104663044001866
 ```
 Logistic Regression
 ```python
 # Logistic Regression
 lr = LogisticRegression(max_iter = 2000)
-cv = cross_val_score(lr, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(lr, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.05805134 0.07526254 0.05455076 0.06302889 0.04610446]
-0.05939959937880903
+[-0.62170235 -0.14754568 -0.17689736 -0.74895962 -1.77748825]
+-0.6945186536733444
 ```
 Decision Tree
 ```python
 # Decision Tree
 dt = tree.DecisionTreeClassifier(random_state = 1)
-cv = cross_val_score(dt, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(dt, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.10268378 0.13039673 0.10997666 0.13802159 0.07732711]
-0.11168117553684294
+[0.21721664 0.50507021 0.43995924 0.38455383 0.17105808]
+0.3435716012341653
 ```
 k-Neighbors
 ```python
 # k-Neighbors
 knn = KNeighborsClassifier()
-cv = cross_val_score(knn, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(knn, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.06621937 0.06038506 0.03967328 0.03472425 0.04814707]
-0.04982980579440023
+[-0.12114659  0.08765767  0.11220653 -0.12182192  0.00433097]
+-0.007754666631982899
 ```
 Random Forest
 ```python
 # Random Forest
 rf = RandomForestClassifier(random_state = 1)
-cv = cross_val_score(rf, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(rf, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.09889148 0.12514586 0.09947491 0.09512693 0.0691567 ]
-0.09755917640781779
+[-0.45686015  0.57301595  0.49558962  0.34846287  0.28101219]
+0.24824409648740398
 ```
 SVC
 ```python
 svc = SVC(probability = True)
-cv = cross_val_score(svc, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(svc, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.06476079 0.06388565 0.05571762 0.05806828 0.04552086]
-0.0575906411403165
+[-0.18707522  0.27290959  0.17670768  0.00118906 -0.08012153]
+0.036721916669605406
 ```
 XGBoost
 ```python
 # XGB
 xgb = XGBClassifier(random_state =1)
-cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5)
+cv = cross_val_score(xgb, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 ```
 ```
-[0.09334889 0.11872812 0.10851809 0.09162533 0.0735337 ]
-0.09715082608116819
+[-0.2630867   0.46058052  0.59600664  0.56941585  0.26144529]
+0.32487231924799537
 ```
 
 ```python
@@ -724,6 +725,14 @@ vot_soft.fit(x_train_scaled, y_train)
 y_predict = vot_soft.predict(x_test_scaled)
 
 print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
+print("R2: {}".format(r2_score(y_test, y_predict)))
+```
+```
+[-0.11173398  0.29584494  0.38508673  0.22137604  0.23396137]
+0.20490701935172675
+
+MSE: 0.07753508969451325
+R2: 0.9959530194577842
 ```
 
 ## 8) Model Tuning
