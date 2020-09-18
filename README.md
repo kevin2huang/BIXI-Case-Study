@@ -34,6 +34,8 @@ import matplotlib
 import sklearn
 import itertools
 import copy
+import csv
+import openpyxl
 ```
 
 ### 3.2 Load Data Modeling Libraries
@@ -46,18 +48,19 @@ import seaborn as sns
 #Common Model Algorithms
 from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn import tree
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import VotingClassifier
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
 #Common Model Helpers
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, mean_absolute_error
 from sklearn import model_selection
 from sklearn import metrics
+from sklearn.metrics import accuracy_score, mean_absolute_error, r2_score
 ```
 
 ### 3.3 Data dictionary
@@ -454,7 +457,8 @@ Name: start_station_code, Length: 552, dtype: int64
 This graph shows the number of BIXI rides by station. Some stations clearly received more rides than others. The station code is treated as a categorical data.<br>
 
 <img src="/images/Duration_distribution.png" title="Distribution of duration of BIXI rides" width="500" height="auto"/><br>
-The duration distribution is skewed so to fix this I will use a log transformation.
+The duration distribution is skewed so to fix this I will use a log transformation.<br>
+<img src="/images/duration_log_distribution.png" title="Distribution of duration of BIXI rides normalized" width="500" height="auto"/><br>
 
 ```python
 print('duration_sec:\n', BIXI_data.duration_sec.value_counts())
@@ -707,7 +711,7 @@ print(cv.mean())
 [-0.2630867   0.46058052  0.59600664  0.56941585  0.26144529]
 0.32487231924799537
 ```
-
+Voting Classifier
 ```python
 estimator = [('lr', lr),
 	         ('knn', knn),
@@ -717,7 +721,7 @@ estimator = [('lr', lr),
 	         ('xgb', xgb)]
 
 vot_soft = VotingClassifier(estimators = estimator, voting = 'soft') 
-cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='mean_squared_error')
+cv = cross_val_score(vot_soft, x_train_scaled, y_train, cv=5, scoring='explained_variance')
 print(cv)
 print(cv.mean())
 
@@ -736,6 +740,7 @@ R2: 0.9959530194577842
 ```
 
 ## 8) Model Tuning
+
 
 ## 9) Validate Data Model
 
