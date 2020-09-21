@@ -13,9 +13,6 @@
 5) [Data Exploration](#5-data-exploration)<br>
 6) [Feature Engineering](#6-feature-engineering)<br>
 7) [Model Building](#7-model-building)<br>
-8) [Model Tuning](#8-model-tuning)<br>
-9) [Validate Data Model](#9-validate-data-model)<br>
-10) [Conclusion](#10-conclusion)
 
 ## 1) Define the Problem
 >The mandate is to strengthen BIXI’s demand prediction capabilities. BIXI would like to estimate its bicycle demand by hour of the day based on their data from 2018.
