@@ -739,10 +739,19 @@ MSE: 0.07753508969451325
 R2: 0.9959530194577842
 ```
 
-## 8) Model Tuning
+Store results into a file.
+```python
+submission = pd.DataFrame({ 'Month' : test_data.Month, 
+						    'Day' : test_data.Day, 
+               			    'Hour' : test_data.Hour, 
+               			    'Temp_Bin' : test_data.Temp_Bin, 
+               			    'Hum_Bin' : test_data.Hum_Bin, 
+               			    'duration_log' : test_data.duration_log, 
+               			    'Wind_spd' : test_data.Wind_spd,
+               			    'Stn_pressure' : test_data.Stn_pressure,
+               			    'Wind_dir' : test_data.Wind_dir,
+               			    'Demand' : test_data.Demand,
+               			    'Prediction' : y_predict })
 
-
-## 9) Validate Data Model
-
-## 10) Conclusion
-
+submission.to_csv('predictions.csv', index=False)
+```
