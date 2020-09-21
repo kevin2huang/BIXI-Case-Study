@@ -84,6 +84,7 @@ x_test_scaled = scale.fit_transform(x_test)
 y_train = train_copy.Demand
 y_test = test_data.Demand
 
+
 # Gaussian Naive Bayes
 print("Gaussian Naive Bayes")
 gnb = GaussianNB()
@@ -161,24 +162,17 @@ y_predict = vot_soft.predict(x_test_scaled)
 print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
 print("R2: {}".format(r2_score(y_test, y_predict)))
 
-# submission = pd.DataFrame({ 'Month' : test_data.Month, 
-# 						    'Day' : test_data.Day, 
-#                			    'Hour' : test_data.Hour, 
-#                			    'Temp_Bin' : test_data.Temp_Bin, 
-#                			    'Hum_Bin' : test_data.Hum_Bin, 
-#                			    'duration_log' : test_data.duration_log, 
-#                			    'Wind_spd' : test_data.Wind_spd,
-#                			    'Stn_pressure' : test_data.Stn_pressure,
-#                			    'Wind_dir' : test_data.Wind_dir,
-#                			    'Demand' : test_data.Demand,
-#                			    'Prediction' : y_predict })
 
-# submission.to_csv('predictions.csv', index=False)
+submission = pd.DataFrame({ 'Month' : test_data.Month, 
+						    'Day' : test_data.Day, 
+               			    'Hour' : test_data.Hour, 
+               			    'Temp_Bin' : test_data.Temp_Bin, 
+               			    'Hum_Bin' : test_data.Hum_Bin, 
+               			    'duration_log' : test_data.duration_log, 
+               			    'Wind_spd' : test_data.Wind_spd,
+               			    'Stn_pressure' : test_data.Stn_pressure,
+               			    'Wind_dir' : test_data.Wind_dir,
+               			    'Demand' : test_data.Demand,
+               			    'Prediction' : y_predict })
 
-
-"""
-
-8) Model Tuning
-
-"""
-
+submission.to_csv('predictions.csv', index=False)
