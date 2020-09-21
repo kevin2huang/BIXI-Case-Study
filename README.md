@@ -455,7 +455,7 @@ This graph shows the number of BIXI rides by station. Some stations clearly rece
 
 <img src="/images/Duration_distribution.png" title="Distribution of duration of BIXI rides" width="500" height="auto"/><br>
 The duration distribution is skewed so to fix this I will use a log transformation.<br>
-<img src="/images/duration_log_distribution.png" title="Distribution of duration of BIXI rides normalized" width="500" height="auto"/><br>
+<img src="/images/duration_log_distribution.png" title="Distribution of duration of BIXI rides normalized" width="550" height="auto"/><br>
 
 ```python
 print('duration_sec:\n', BIXI_data.duration_sec.value_counts())
