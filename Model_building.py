@@ -33,9 +33,8 @@ test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Test_Dat
 # create a copy of train data to start exploring/modifying it
 train_copy = train_data.copy(deep = True)
 
-# print("All Data Shape: {}".format(new_BIXI_data.shape))
-# print("Train Data Shape: {}".format(train_data.shape))
-# print("Test Data Shape: {}".format(test_data.shape))
+print("Train Data Shape: {}".format(train_data.shape))
+print("Test Data Shape: {}".format(test_data.shape))
 
 
 
