@@ -565,7 +565,7 @@ plt.show()
 - "Humidity" and "Month" also indicate a correlation.
 
 ### 6.2 Split into Training and Testing Data
-Finally, the data set was split into a training(80%) and testing(20%) set using Alteryx.<br>
+Finally, I filtered the data on Station Code 6100 and split the data set into a training(80%) and testing(20%) set using Alteryx.<br>
 
 <img src="/images/Step7_Split_Train_Test.PNG" title="Split Train Test" width="400" height="auto"/><br>
 ```python
@@ -578,14 +578,12 @@ test_data = pd.read_csv("Data sets/Bixi Montreal Rentals 2018/2018_BIXI_Test_Dat
 # create a copy of train data to start exploring/modifying it
 train_copy = train_data.copy(deep = True)
 
-print("All Data Shape: {}".format(new_BIXI_data.shape))
 print("Train Data Shape: {}".format(train_data.shape))
 print("Test Data Shape: {}".format(test_data.shape))
 ```
 ```
-All Data Shape: (1512012, 8)
-Train Data Shape: (1209610, 8)
-Test Data Shape: (302402, 8)
+Train Data Shape: (39970, 12)
+Test Data Shape: (13323, 12)
 ```
 
 ## 7) Evaluate Model Performance
