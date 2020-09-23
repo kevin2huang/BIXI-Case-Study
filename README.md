@@ -451,7 +451,7 @@ start_station_code:
 5003      339
 Name: start_station_code, Length: 552, dtype: int64
 ```
-This graph shows the number of BIXI rides by station. Some stations clearly received more rides than others. The station code is treated as a categorical data.<br>
+This graph shows the number of BIXI rides by station. Some stations clearly received more rides than others. The `station code` is treated as a categorical data.<br>
 
 <img src="/images/Duration_distribution.png" title="Distribution of duration of BIXI rides" width="500" height="auto"/><br>
 The duration distribution is skewed so to fix this I will use a log transformation.<br>
@@ -476,7 +476,7 @@ duration_sec:
 Name: duration_sec, Length: 7035, dtype: int64
 ```
 
-**Trend Line Summary**
+**Trend Line Summary**<br>
 I plotted a polynomial line for each graph to calculate the R-squared and p-value to understand if there is a correlation with the number of rides.<br>
 | Variable | Trend Line | R-Squared | p-value |
 | :-------: | :---------:| :-------:| :-------:|
@@ -492,10 +492,10 @@ I plotted a polynomial line for each graph to calculate the R-squared and p-valu
 | Wind Dir (10s deg) | Polynomial | 0.14657 | 0.150621 |
 | **Wind Spd (km/h)** | Polynomial | **0.899023** | < 0.0001 |
 
-Month, Hour, Weekend, Temperature, Duration, Humidity and Wind Speed show a high correlation with the number of rides.
+`Month`, `Hour`, `Weekend`, `Temperature`, `Duration`, `Humidity` and `Wind Speed` show a high correlation with the number of rides.
 
 ## 6) Feature Engineering
-For this data set, I created a "ratio" feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
+For this data set, I created a `ratio` feature which is calculated by dividing the number of bikes in by the number of bikes out for each station on a given day. This will determine which stations generally receive more bikes and which stations have more bikes departing from it.<br>
 
 <img src="/images/Step3_BIXI_Stations_Temperature_Ratio.PNG" title="Ratios of Stations" width="auto" height="auto"/><br>
 
@@ -561,8 +561,8 @@ plt.show()
 ```
 <img src="/images/num_heatmap.png" title="Correlation between numerical columns" width="700" height="auto"/><br>
 
-- "Hour" and "Temperature" shows the highest correlation in regards to the "Demand" but it is still relatively low.
-- "Humidity" and "Month" also indicate a correlation.
+- `Hour` and `Temperature` shows the highest correlation in regards to the `Demand` but it is still relatively low.
+- `Humidity` and `Month` also indicate a correlation.
 
 ### 6.2 Split into Training and Testing Data
 Finally, I filtered the data on Station Code 6100 and split the data set into a training(80%) and testing(20%) set using Alteryx.<br>
@@ -708,11 +708,9 @@ print(cv.mean())
 ```
 Voting Classifier
 ```python
-estimator = [('lr', lr),
-	         ('knn', knn),
-	         ('rf', rf),
+estimator = [('rf', rf),
+			 ('dt', dt),
 	         ('gnb', gnb),
-	         ('svc', svc),
 	         ('xgb', xgb)]
 
 vot_soft = VotingClassifier(estimators = estimator, voting = 'soft') 
@@ -727,11 +725,11 @@ print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
 print("R2: {}".format(r2_score(y_test, y_predict)))
 ```
 ```
-[-0.11173398  0.29584494  0.38508673  0.22137604  0.23396137]
-0.20490701935172675
+[0.09245729 0.53578219 0.43986143 0.44075958 0.26073409]
+0.3539189170202325
 
-MSE: 0.07753508969451325
-R2: 0.9959530194577842
+MSE: 0.0632740373789687
+R2: 0.9967724645943226
 ```
 
 Store results into a file.
