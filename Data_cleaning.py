@@ -11,7 +11,7 @@ BIXI_data.columns = ['Month', 'Day', 'Hour', 'start_date', 'start_station_code',
                      'Wind_dir', 'Wind_spd', 'Stn_pressure']
 
 # find number of null values in each column
-# print('Number of null values per column:\n', BIXI_data.isnull().sum())
+print('Number of null values per column:\n', BIXI_data.isnull().sum())
 
 # find which columns need to be normalized
 print('Month skewness: ', BIXI_data.Month.skew())
