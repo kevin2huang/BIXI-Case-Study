@@ -141,11 +141,9 @@ print(cv)
 print(cv.mean())
 
 # group of models
-estimator = [('lr', lr),
-	         ('knn', knn),
-	         ('rf', rf),
+estimator = [('rf', rf),
+			 ('dt', dt),
 	         ('gnb', gnb),
-	         ('svc', svc),
 	         ('xgb', xgb)]
 
 # Voting Classifier with soft voting
