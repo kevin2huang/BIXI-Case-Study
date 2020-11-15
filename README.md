@@ -721,7 +721,7 @@ print(cv.mean())
 vot_soft.fit(x_train_scaled, y_train)
 y_predict = vot_soft.predict(x_test_scaled)
 
-print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
+print("MSE: {}".format(mean_squared_error(y_test, y_predict)))
 print("R2: {}".format(r2_score(y_test, y_predict)))
 ```
 ```
