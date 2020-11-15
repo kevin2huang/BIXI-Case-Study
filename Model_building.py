@@ -21,7 +21,7 @@ from xgboost import XGBClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn import model_selection
 from sklearn import metrics
-from sklearn.metrics import accuracy_score, mean_absolute_error, r2_score
+from sklearn.metrics import accuracy_score, mean_squared_error, r2_score
 
 
 # read train data
@@ -156,7 +156,7 @@ print(cv.mean())
 vot_soft.fit(x_train_scaled, y_train)
 y_predict = vot_soft.predict(x_test_scaled)
 
-print("MSE: {}".format(mean_absolute_error(y_test, y_predict)))
+print("MSE: {}".format(mean_squared_error(y_test, y_predict)))
 print("R2: {}".format(r2_score(y_test, y_predict)))
 
 
